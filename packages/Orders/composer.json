@@ -1,0 +1,16 @@
+{
+    "name": "planogolny/orders",
+    "description": "Orders module for Planogolny — order lifecycle and persistence.",
+    "autoload": {
+        "psr-4": {
+            "Planogolny\\Orders\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Planogolny\\Orders\\OrdersServiceProvider"
+            ]
+        }
+    }
+}

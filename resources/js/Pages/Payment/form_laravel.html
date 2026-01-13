@@ -1,0 +1,277 @@
+<form
+    class="contact-form needs-validation"
+    method="post"
+    action="./assets/php/contact.php"
+    novalidate
+>
+    <div class="messages"></div>
+    <div class="row gx-4">
+        <div class="col-12">
+            <p>
+                Pobierasz raport jako <strong>firma?</strong> Wypełnij
+                poniższe pola, <strong>raport</strong> i&nbsp;rachunek
+                wyślemy na podany adres e-mail.
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input
+                    id="form_firma"
+                    type="text"
+                    name="firma"
+                    class="form-control"
+                    placeholder=""
+                    required
+                />
+                <label for="form_firma">Nazwa firmy</label>
+                <div class="valid-feedback">Ok!</div>
+                <div class="invalid-feedback">
+                    Proszę podać nazwę firmy!
+                </div>
+            </div>
+        </div>
+        <!-- /column -->
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input
+                    id="form_miasto"
+                    type="text"
+                    name="miasto"
+                    class="form-control"
+                    placeholder=""
+                    required
+                />
+                <label for="form_miasto">Miasto</label>
+                <div class="valid-feedback">Ok!</div>
+                <div class="invalid-feedback">
+                    Proszę podać miasto!
+                </div>
+            </div>
+        </div>
+        <!-- /column -->
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input
+                    id="form_kod"
+                    type="text"
+                    name="kod"
+                    class="form-control"
+                    placeholder=""
+                    required
+                />
+                <label for="form_kod">Kod pocztowy</label>
+                <div class="valid-feedback">Ok!</div>
+                <div class="invalid-feedback">
+                    Proszę podać kod pocztowy!
+                </div>
+            </div>
+        </div>
+        <!-- /column -->
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input
+                    id="form_ulica"
+                    type="text"
+                    name="ulica"
+                    class="form-control"
+                    placeholder=""
+                    required
+                />
+                <label for="form_ulica">Ulica i numer</label>
+                <div class="valid-feedback">Ok!</div>
+                <div class="invalid-feedback">
+                    Proszę podać ulicę i numer!
+                </div>
+            </div>
+        </div>
+        <!-- /column -->
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input
+                    id="form_nip"
+                    type="text"
+                    name="nip"
+                    class="form-control"
+                    placeholder=""
+                    required
+                />
+                <label for="form_nip">NIP</label>
+                <div class="valid-feedback">Ok!</div>
+                <div class="invalid-feedback">Proszę podać NIP!</div>
+            </div>
+        </div>
+        <!-- /column -->
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input
+                    id="form_email"
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder=""
+                    required
+                />
+                <label for="form_email">Adres e-mail</label>
+                <div class="valid-feedback">Ok!</div>
+                <div class="invalid-feedback">
+                    Proszę podać adres e-mail!
+                </div>
+            </div>
+        </div>
+        <!-- /column -->
+    </div>
+    <!-- /.row -->
+</form>
+<!-- /form -->
+</div>
+<!--/column -->
+
+<div class="col-lg-6">
+    <form
+        class="contact-form needs-validation"
+        method="post"
+        action="./assets/php/contact.php"
+        novalidate
+    >
+        <div class="messages"></div>
+        <div class="row gx-4">
+            <div class="col-12">
+                <p>
+                    Pobierasz raport
+                    <strong>prywatnie (nie firma)?</strong>
+                    <strong>Raport</strong> i&nbsp;rachunek wyślemy na
+                    podany adres e-mail.
+                </p>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <input
+                        id="form_prywemail"
+                        type="email"
+                        name="prywemail"
+                        class="form-control"
+                        placeholder=""
+                        required
+                    />
+                    <label for="form_prywemail">Imię</label>
+                    <div class="valid-feedback">Ok!</div>
+                    <div class="invalid-feedback">
+                        Proszę podać imię!
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <input
+                        id="form_prywemail"
+                        type="email"
+                        name="prywemail"
+                        class="form-control"
+                        placeholder=""
+                        required
+                    />
+                    <label for="form_prywemail">Nazwisko</label>
+                    <div class="valid-feedback">Ok!</div>
+                    <div class="invalid-feedback">
+                        Proszę podać nazwisko!
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <input
+                        id="form_prywemail"
+                        type="email"
+                        name="prywemail"
+                        class="form-control"
+                        placeholder=""
+                        required
+                    />
+                    <label for="form_prywemail">Adres e-mail</label>
+                    <div class="valid-feedback">Ok!</div>
+                    <div class="invalid-feedback">
+                        Proszę podać adres e-mail!
+                    </div>
+                </div>
+            </div>
+            <!-- /column -->
+        </div>
+        <input type="hidden" name="invoice_data[address][country]" value="PL">
+        <!-- /.row -->
+    </form>
+
+    {{-- Typ faktury --}}
+    <div class="mb-4">
+        <label class="form-label fw-bold">Kupuję jako:</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="invoice_type" id="invoice_b2c" value="b2c" checked>
+            <label class="form-check-label" for="invoice_b2c">Osoba fizyczna</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="invoice_type" id="invoice_b2b" value="b2b">
+            <label class="form-check-label" for="invoice_b2b">Firma</label>
+        </div>
+    </div>
+
+    {{-- B2C --}}
+    <div id="b2c-fields">
+        <div class="form-floating mb-4">
+            <input type="text" name="invoice_data[first_name]" class="form-control" placeholder="" required>
+            <label>Imię</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="text" name="invoice_data[last_name]" class="form-control" placeholder="" required>
+            <label>Nazwisko</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="email" name="invoice_data[email]" class="form-control" placeholder="" required>
+            <label>Adres e-mail</label>
+        </div>
+    </div>
+
+    {{-- B2B --}}
+    <div id="b2b-fields" style="display:none;">
+        <div class="form-floating mb-4">
+            <input type="text" name="invoice_data[company_name]" class="form-control" placeholder="">
+            <label>Nazwa firmy</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="text" name="invoice_data[nip]" class="form-control" placeholder="">
+            <label>NIP</label>
+        </div>
+
+        <div class="form-floating mb-4">
+            <input type="email" name="invoice_data[email]" class="form-control" placeholder="">
+            <label>Adres e-mail</label>
+        </div>
+    </div>
+
+    {{-- Adres wspólny --}}
+    <div class="form-floating mb-4">
+        <input type="text" name="invoice_data[address][line]" class="form-control" placeholder="" required>
+        <label>Ulica i numer</label>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input type="text" name="invoice_data[address][postal_code]" class="form-control" placeholder="" required>
+                <label>Kod pocztowy</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-4">
+                <input type="text" name="invoice_data[address][city]" class="form-control" placeholder="" required>
+                <label>Miasto</label>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="invoice_data[address][country]" value="PL">
+
+    <button type="submit" class="btn btn-primary w-100">Przejdź do płatności</button>

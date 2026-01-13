@@ -1,0 +1,9 @@
+{
+    "name": "planogolny/fulfillment",
+    "description": "Fulfillment module for Planogolny — Stripe/Tpay integration.",
+    "autoload": {
+        "psr-4": {
+            "Planogolny\\Fulfillment\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "name": "planogolny/reporting",
+    "description": "Reporting module — PDF generation and email delivery.",
+    "autoload": {
+        "psr-4": {
+            "Planogolny\\Reporting\\": "src/"
+        }
+    }
+}

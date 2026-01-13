@@ -1,0 +1,9 @@
+{
+    "name": "planogolny/analysis",
+    "description": "Analysis module for Planogolny — scoring engine and land-use probability calculations.",
+    "autoload": {
+        "psr-4": {
+            "Planogolny\\Analysis\\": "src/"
+        }
+    }
+}

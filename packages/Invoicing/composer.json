@@ -1,0 +1,9 @@
+{
+    "name": "planogolny/invoicing",
+    "description": "Invoicing module — ING Accounting integration.",
+    "autoload": {
+        "psr-4": {
+            "Planogolny\\Invoicing\\": "src/"
+        }
+    }
+}

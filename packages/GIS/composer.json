@@ -1,0 +1,9 @@
+{
+    "name": "planogolny/gis",
+    "description": "GIS module for Planogolny — handles OSM, Google Geocoding, Geoportal integrations.",
+    "autoload": {
+        "psr-4": {
+            "Planogolny\\GIS\\": "src/"
+        }
+    }
+}
