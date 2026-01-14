@@ -89,11 +89,10 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
-        <script
-            src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_key') }}&libraries=places"
-            async
-            defer
-        ></script>
+{{--        <script--}}
+{{--            src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_key') }}&libraries=places&loading=async"--}}
+{{--            defer--}}
+{{--        ></script>--}}
     </head>
     <body class="bg_all">
         @inertia

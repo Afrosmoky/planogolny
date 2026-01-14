@@ -7,6 +7,7 @@ defineOptions({ layout: AppLayout })
 
 const props = defineProps({
     orderId: Number,
+    results: Object
 })
 
 const status = ref('pending')
@@ -36,10 +37,6 @@ onMounted(() => {
 
 onUnmounted(() => {
     if (interval) clearInterval(interval)
-})
-
-defineProps({
-    results: Object
 })
 
 </script>

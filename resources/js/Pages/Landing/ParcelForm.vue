@@ -2,6 +2,9 @@
 import { ref, onMounted, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
+import { loadGoogleMaps } from '@/googleMaps'
+
+let map = null
 
 defineOptions({ layout: AppLayout })
 
@@ -36,14 +39,19 @@ const fullAddress = computed(() => {
         .join(', ')
 })
 
-let map
 let geocoder
 
-onMounted(() => {
-    map = new google.maps.Map(mapRef.value, {
-        zoom: 14,
-        center: { lat: 52.2297, lng: 21.0122 },
-    })
+onMounted(async () => {
+    try {
+        const google = await loadGoogleMaps()
+
+        map = new google.maps.Map(mapRef.value, {
+            zoom: 14,
+            center: {lat: 52.2297, lng: 21.0122},
+        })
+    } catch (e) {
+        console.error('Google Maps init failed', e)
+    }
 
     markerRef.value = new google.maps.Marker({
         map,
