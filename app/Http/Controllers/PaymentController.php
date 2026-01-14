@@ -31,7 +31,7 @@ final class PaymentController
                 //email: 'placeholder@planogolny.info', // później z formularza
                 email: "szulcpiotr@icloud.com",
                 addressText: "Analysis #{$analysisId}",
-                amount: 100,
+                amount: 1,
                 currency: 'PLN',
                 paymentProvider: 'TPay',
                 invoiceType: $request->input('invoice_type'),
