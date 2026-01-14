@@ -16,6 +16,20 @@ final readonly class TpayWebhookDTO
 
     public static function fromRequest(Request $request): self
     {
+        info('TPAY WEBHOOK DEBUG', [
+            // surowe body (najważniejsze)
+            'raw_body' => $request->getContent(),
+
+            // sparsowane dane (jak Laravel je widzi)
+            'parsed' => $request->all(),
+
+            // tylko nagłówki istotne dla TPay
+            'headers' => [
+                'content-type' => $request->header('Content-Type'),
+                'x-jws-signature' => $request->header('X-JWS-Signature'),
+                'x-tpay-signature' => $request->header('X-Tpay-Signature'),
+            ],
+        ]);
         return new self(
             transactionId: (string) $request->input('transaction_id'),
             merchantTransactionId: (string) $request->input('$merchantTransactionId'),
