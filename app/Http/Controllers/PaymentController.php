@@ -53,8 +53,8 @@ final class PaymentController
         /**
          * 3️⃣ Redirect do TPay
          */
-        //return redirect()->away($transaction['redirectUrl']);
-        return redirect(route('payment.success', $order->id));
+        return redirect()->away($transaction['redirectUrl']);
+        //return redirect(route('payment.success', $order->id));
     }
 
     public function success(Order $order): \Inertia\Response|\Inertia\ResponseFactory
