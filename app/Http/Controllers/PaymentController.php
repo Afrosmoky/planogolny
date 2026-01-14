@@ -17,7 +17,8 @@ final class PaymentController
         CreateOrderAction $createOrder,
         CreateTpayTransactionAction $createTpayTransaction,
         Request $request
-    ): RedirectResponse {
+    ): \Illuminate\Http\JsonResponse
+    {
 
 //        dd([
 //            'analysisId' => $analysisId,
@@ -53,7 +54,10 @@ final class PaymentController
         /**
          * 3️⃣ Redirect do TPay
          */
-        return redirect()->away($transaction['redirectUrl']);
+        return response()->json([
+            'redirect_url' => $transaction['redirectUrl'],
+        ]);
+        //return redirect()->away($transaction['redirectUrl']);
         //return redirect(route('payment.success', $order->id));
     }
 

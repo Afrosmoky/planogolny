@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
@@ -36,13 +37,25 @@ const form = useForm({
 
 const isB2B = computed(() => form.invoice_type === 'b2b')
 
-const submit = () => {
-    form.post(
-        route('payment.start', { analysisId: analysisId.value }),
-        {
-            preserveScroll: true,
-        }
-    )
+const submit = async () => {
+    if (form.processing) return
+
+    form.processing = true
+
+    try {
+        const response = await axios.post(
+            route('payment.start', { analysisId: analysisId.value }),
+            form.data()
+        )
+
+        // 🔥 KLUCZOWE: normalny redirect przeglądarki
+        window.location.href = response.data.redirect_url
+    } catch (error) {
+        form.processing = false
+
+        console.error(error)
+        alert('Wystąpił błąd podczas inicjalizacji płatności.')
+    }
 }
 
 </script>
