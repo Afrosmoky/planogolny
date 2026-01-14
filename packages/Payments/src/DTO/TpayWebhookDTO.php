@@ -8,7 +8,7 @@ final readonly class TpayWebhookDTO
 {
     public function __construct(
         public string $transactionId,
-        public string $orderId,
+        public string $merchantTransactionId,
         public int $amount,
         public string $status,
         public string $signature,
@@ -18,7 +18,7 @@ final readonly class TpayWebhookDTO
     {
         return new self(
             transactionId: (string) $request->input('transaction_id'),
-            orderId: (string) $request->input('order_id'),
+            merchantTransactionId: (string) $request->input('$merchantTransactionId'),
             amount: (int) $request->input('amount'),
             status: (string) $request->input('status'),
             signature: (string) $request->header('X-Tpay-Signature')

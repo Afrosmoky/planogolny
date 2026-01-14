@@ -30,7 +30,7 @@ final class HandleTpayWebhookAction
             return;
         }
 
-        $order = Order::findOrFail((int) $dto->orderId);
+        $order = Order::findOrFail((int) $dto->merchantTransactionId);
 
         $this->markOrderAsPaid->execute(
             order: $order,
