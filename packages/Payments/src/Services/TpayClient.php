@@ -21,7 +21,7 @@ final readonly class TpayClient
 
     private function getAccessToken(): string
     {
-        $response = Http::asForm()->post($this->baseUrl . '/oauth/token', [
+        $response = Http::asForm()->post($this->baseUrl . '/oauth/auth', [
             'grant_type' => 'client_credentials',
             'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
