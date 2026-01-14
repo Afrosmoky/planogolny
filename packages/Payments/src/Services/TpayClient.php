@@ -74,7 +74,7 @@ final readonly class TpayClient
 
         return [
             'transactionId' => $response['transactionId'],
-            'redirectUrl'   => $response['redirectUrl'],
+            'redirectUrl'   => $response['transactionPaymentUrl'],
         ];
     }
 
