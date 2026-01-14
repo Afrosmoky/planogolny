@@ -1,15 +1,52 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import axios from 'axios'
 
 defineOptions({ layout: AppLayout })
+
+const props = defineProps({
+    orderId: Number,
+})
+
+const status = ref('pending')
+let interval = null
+
+const checkStatus = async () => {
+    try {
+        const response = await axios.get(
+            route('payment.status', { order: props.orderId })
+        )
+
+        status.value = response.data.status
+
+        if (status.value === 'paid' || status.value === 'completed') {
+            clearInterval(interval)
+            interval = null
+        }
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+onMounted(() => {
+    checkStatus()
+    interval = setInterval(checkStatus, 2000)
+})
+
+onUnmounted(() => {
+    if (interval) clearInterval(interval)
+})
 
 defineProps({
     results: Object
 })
+
 </script>
 
 <template>
     <section class="wrapper pb-14 pb-md-16">
+
         <div class="container text-center">
             <div class="row pb-10">
                 <div
@@ -20,15 +57,26 @@ defineProps({
                         class="d-flex justify-content-center mb-5 mb-md-0"
 
                     >
-                        <div class="btn_top">
+                        <div v-if="status === 'created'" class="btn_top">
+                            <h3>Twoja płatność jest w trakcie realizacji…</h3>
+                            <p>Prosimy nie zamykać strony.</p>
+                        </div>
+
+                        <div v-else-if="status === 'paid'" class="btn_top">
                             <h3>
                                 RAPORT – Plan Ogólny
                             </h3>
                         </div>
+
+                        <div v-else-if="status === 'failed'" class="btn_top">
+                            <h3>Płatność nie powiodła się</h3>
+                            <p>Spróbuj ponownie.</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-xl-10 mx-auto">
+            <div v-if="status === 'paid'" class="col-xl-10 mx-auto">
 
                 <div class="row gy-10 gx-lg-8 gx-xl-12">
                     <div class="col-lg-6">

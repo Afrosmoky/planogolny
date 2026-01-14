@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Planogolny\Orders\Models\Order;
 
 //Route::get('/', function () {
 //    return Inertia::render('Welcome', [
@@ -38,6 +39,12 @@ Route::get('/payment/{analysis}', [PaymentController::class, 'checkout'])->name(
 Route::post('/payment/{analysisId}/payment/start', [PaymentController::class, 'start'])->name('payment.start');
 
 Route::get('/payment/{order}/success', [PaymentController::class, 'success'])->name('payment.success');
+
+Route::get('/payment/{order}/status', function (Order $order) {
+    return response()->json([
+        'status' => $order->status, // created | paid | completed
+    ]);
+})->name('payment.status');
 
 Route::get('/reports/{order}', function ($orderId) {
     return Storage::download("reports/report-{$orderId}.pdf");
