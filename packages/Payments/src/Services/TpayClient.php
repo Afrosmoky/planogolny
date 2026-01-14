@@ -40,8 +40,8 @@ final readonly class TpayClient
     {
         if($this->env === 'dev') {
             return [
-                'transaction_id' => 'TPAY_TX_' . uniqid(),
-                'redirect_url' => 'https://secure.tpay.com/redirect/placeholder',
+                'transactionId' => 'TPAY_TX_' . uniqid(),
+                'redirectUrl' => 'https://secure.tpay.com/redirect/placeholder',
             ];
         }
         $token = $this->getAccessToken();
