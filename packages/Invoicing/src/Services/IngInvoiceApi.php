@@ -60,21 +60,25 @@ final class IngInvoiceApi
             config('ing.base_url') . '/create-invoice',
             [
                 'positions' => [
-                    'name' => $dto->description,
-                    'code' => 'string',
-                    'quantity' => 1,
-                    'unit' => 'string',
-                    'net' => $dto->amount / 1,23,
-                    'tax' => round(($dto->amount / 100)*23, 0),
-                    'gross' => $dto->amount,
-                    'taxStake' => 'TAX_23',
+                    [
+                        'name' => $dto->description,
+                        'code' => 'string',
+                        'quantity' => 1,
+                        'unit' => 'string',
+                        'net' => round($dto->amount / 1.23, 2),
+                        'tax' => round($dto->amount - round($dto->amount / 1.23, 2), 2),
+                        'gross' => $dto->amount,
+                        'taxStake' => 'TAX_23',
+                    ]
                 ],
                 'payment' => [
                     'deadlineDate' => now()->toDateString(),
                     'method' => 'TRANSFER',
-                    'bankAccounts'=> [
-                        'accountNumber' => config('ing.account_number'),
-                    ]
+                    'bankAccounts' => [
+                        [
+                            'accountNumber' => config('ing.account_number'),
+                        ]
+                    ],
                 ],
                 'buyer' => [
                     "email" => $dto->buyerEmail,
