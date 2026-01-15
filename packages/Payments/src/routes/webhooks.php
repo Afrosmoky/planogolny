@@ -10,7 +10,7 @@ Route::post('api/webhooks/tpay', function (Request $request) {
         TpayWebhookDTO::fromRequest($request)
     );
 
-    return response()->json(['ok' => true]);
+    return response(TRUE, 200);
 })->name('tpay.webhook');
 //Route::post('api/webhooks/tpay', function () {
 //    return response()->json(['webhook' => 'ok']);

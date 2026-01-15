@@ -14,7 +14,7 @@ final class HandleTpayWebhookAction
         protected MarkOrderAsPaidAction $markOrderAsPaid,
     ) {}
 
-    public function execute(TpayWebhookDTO $dto): void
+    public function execute(TpayWebhookDTO $dto): bool
     {
         info('TPAY webhook run');
         $rawBody = request()->getContent();
@@ -27,7 +27,7 @@ final class HandleTpayWebhookAction
         info('TPAY status', ['status' => $dto->status]);
 
         if ($dto->status !== 'TRUE') {
-            return;
+            return FALSE;
         }
 
         $order = Order::findOrFail((int) $dto->merchantTransactionId);
@@ -37,5 +37,6 @@ final class HandleTpayWebhookAction
             paymentProvider: 'tpay',
             externalPaymentId: $dto->transactionId
         );
+        return TRUE;
     }
 }
