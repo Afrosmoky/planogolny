@@ -38,12 +38,12 @@ final readonly class TpayClient
 
     public function createTransaction(array $payload): array
     {
-        if($this->env === 'dev') {
-            return [
-                'transactionId' => 'TPAY_TX_' . uniqid(),
-                'redirectUrl' => 'https://secure.tpay.com/redirect/placeholder',
-            ];
-        }
+//        if($this->env === 'dev') {
+//            return [
+//                'transactionId' => 'TPAY_TX_' . uniqid(),
+//                'redirectUrl' => 'https://secure.tpay.com/redirect/placeholder',
+//            ];
+//        }
         $token = $this->getAccessToken();
 
         $response = Http::withToken($token)
