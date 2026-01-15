@@ -32,7 +32,7 @@ const checkStatus = async () => {
 
 onMounted(() => {
     checkStatus()
-    interval = setInterval(checkStatus, 2000)
+    interval = setInterval(checkStatus, 5000)
 })
 
 onUnmounted(() => {

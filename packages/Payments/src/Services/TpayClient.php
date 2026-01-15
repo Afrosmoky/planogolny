@@ -51,6 +51,7 @@ final readonly class TpayClient
             ->acceptJson()
             ->post($this->baseUrl . '/transactions', [
                 'merchantTransactionId' => (string) $payload['order_id'],
+                'hiddenDescription' => (string) $payload['order_id'],
                 'amount' => $payload['amount'],          // np. 1.00 albo 0.10
                 'description' => $payload['description'],
                 'payer' => [
