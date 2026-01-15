@@ -31,10 +31,10 @@ final readonly class TpayWebhookDTO
             ],
         ]);
         return new self(
-            transactionId: (string) $request->input('transaction_id'),
-            merchantTransactionId: (string) $request->input('$merchantTransactionId'),
-            amount: (int) $request->input('amount'),
-            status: (string) $request->input('status'),
+            transactionId: (string) $request->input('tr_id'),
+            merchantTransactionId: (string) $request->input('tr_crc'),
+            amount: (int) $request->input('tr_amount'),
+            status: (string) $request->input('tr_status'),
             signature: (string) $request->header('X-Tpay-Signature')
         );
     }

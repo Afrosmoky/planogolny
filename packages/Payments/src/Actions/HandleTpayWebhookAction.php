@@ -26,7 +26,7 @@ final class HandleTpayWebhookAction
         info('TPAY signature OK');
         info('TPAY status', ['status' => $dto->status]);
 
-        if ($dto->status !== 'SUCCESS') {
+        if ($dto->status !== 'TRUE') {
             return;
         }
 
