@@ -104,7 +104,15 @@ final class IngInvoiceApi
             );
         }
 
-        return $response->json('invoiceNumber');
+        $id = $response->json('id');
+
+        if (! $id) {
+            throw new \RuntimeException('ING invoice created but ID missing', [
+                'response' => $response->body(),
+            ]);
+        }
+
+        return $id;
     }
 
     /**
