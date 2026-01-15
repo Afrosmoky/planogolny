@@ -24,7 +24,38 @@ final class IngInvoiceApi
         if (config('ing.env') === 'dev') {
             return 'ING-INVOICE-' . $dto->orderId;
         }
-
+        $payload = [
+            'positions' => [
+                'name' => $dto->description,
+                'code' => 'string',
+                'quantity' => 1,
+                'unit' => 'string',
+                'net' => $dto->amount / 1,23,
+                'tax' => round(($dto->amount / 100)*23, 0),
+                'gross' => $dto->amount,
+                'taxStake' => 'TAX_23',
+            ],
+            'payment' => [
+                'deadlineDate' => now()->toDateString(),
+                'method' => 'TRANSFER',
+                'bankAccounts'=> [
+                    'accountNumber' => config('ing.account_number'),
+                ]
+            ],
+            'buyer' => [
+                "email" => $dto->buyerEmail,
+                "fullName" => $dto->buyerName,
+                "addressStreet" => $dto->buyerAddressStreet,
+                "city" => $dto->buyerCity,
+                "postCode" => $dto->buyerPostCode,
+                "countryCode" => 'PL',
+                "taxNumber" => $dto->buyerTaxNumber,
+                "taxCountryCode" => 'PL'
+            ]
+        ];
+        info('ING INVOICE PAYLOAD', [
+            'payload' => $payload,
+        ]);
         $response = $this->client()->post(
             config('ing.base_url') . '/create-invoice',
             [
@@ -57,6 +88,11 @@ final class IngInvoiceApi
                 ]
             ]
         );
+
+        info('ING INVOICE RESPONSE', [
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
 
         if (! $response->successful()) {
             throw new \RuntimeException(
