@@ -10,10 +10,17 @@ const props = defineProps({
     results: Object
 })
 
-const status = ref('pending')
+const status = ref('created')
 let interval = null
+let attempts = 0
+const MAX_ATTEMPTS = 24
 
 const checkStatus = async () => {
+    attempts++
+    if (attempts > MAX_ATTEMPTS) {
+        clearInterval(interval)
+        return
+    }
     try {
         const response = await axios.get(
             route('payment.status', { order: props.orderId })
@@ -31,12 +38,12 @@ const checkStatus = async () => {
 }
 
 onMounted(() => {
-    //checkStatus()
-    //interval = setInterval(checkStatus, 5000)
+    checkStatus()
+    interval = setInterval(checkStatus, 5000)
 })
 
 onUnmounted(() => {
-    //if (interval) clearInterval(interval)
+    clearInterval(interval)
 })
 
 </script>
