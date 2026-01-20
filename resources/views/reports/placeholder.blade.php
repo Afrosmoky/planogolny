@@ -57,7 +57,7 @@
 
                 >
 
-                    <h1>Raport planistyczny nr: {{ $orde->report_number }}</h1>
+                    <h1>Raport planistyczny nr: {{ $order->report_number }}</h1>
 
                     <div class="box">
                         <strong>Analizowany adres:</strong><br>
