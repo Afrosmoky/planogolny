@@ -2,7 +2,7 @@
 
 namespace Planogolny\Reporting\Actions;
 
-use Planogolny\Reporting\Actions\FinalSummaryReportDTO;
+use Planogolny\Reporting\DTO\FinalSummaryReportDTO;
 
 final class BuildFinalSummaryReportAction
 {
