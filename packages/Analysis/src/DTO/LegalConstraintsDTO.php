@@ -49,4 +49,23 @@ final class LegalConstraintsDTO
             'cemeteryRestriction'   => $this->cemeteryRestriction,
         ];
     }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            waterDistance: $data['waterDistance'] ?? null,
+            embankmentDistance: $data['embankmentDistance'] ?? null,
+            railDistance: $data['railDistance'] ?? null,
+            motorwayDistance: $data['motorwayDistance'] ?? null,
+            powerLineDistance: $data['powerLineDistance'] ?? null,
+            cemeteryDistance: $data['cemeteryDistance'] ?? null,
+
+            waterRestriction: (bool) ($data['waterRestriction'] ?? false),
+            embankmentRestriction: (bool) ($data['embankmentRestriction'] ?? false),
+            railRestriction: (bool) ($data['railRestriction'] ?? false),
+            motorwayRestriction: (bool) ($data['motorwayRestriction'] ?? false),
+            powerLineRestriction: (bool) ($data['powerLineRestriction'] ?? false),
+            cemeteryRestriction: (bool) ($data['cemeteryRestriction'] ?? false),
+        );
+    }
 }
