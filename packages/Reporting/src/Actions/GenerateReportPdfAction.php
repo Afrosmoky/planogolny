@@ -17,7 +17,7 @@ final class GenerateReportPdfAction
     {
         $order->load('analysis');
 
-        $data = app(BuildReportDataAction::class)->execute($order->analysis()->getResults());
+        $data = app(BuildReportDataAction::class)->execute($order->analysis()->result());
 
         $html = view('reports.placeholder', [
             'order' => $order,

@@ -106,8 +106,6 @@ onUnmounted(() => {
                             <h3>Ograniczenia wynikające z przepisów odrębnych</h3>
                             <p>Poniższe informacje wskazują na uwarunkowania wynikające z obowiązujących przepisów prawa, które mogą wpływać na możliwości zagospodarowania terenu niezależnie od ustaleń planu ogólnego.</p>
                         </div>
-
-
                     </div>
                 </div>
             </div>
