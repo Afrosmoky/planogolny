@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Planogolny\Analysis\Actions;
 
+use App\Models\Analysis;
 use Planogolny\Analysis\DTO\AnalysisInputDTO;
 use Planogolny\Analysis\Providers\DemographyProvider;
 use Planogolny\GIS\Facades\GISFacade;
@@ -16,29 +17,27 @@ final readonly class PrepareAnalysisInputAction
 {
     public function __construct(
         private GISFacade $gis,
-        private PlanInfoProvider $plans,
         private DemographyProvider $demography,
-        private MpzPlanMapper $planMapper,
     ) {}
 
-    public function execute(float $lat, float $lon): AnalysisInputDTO
+    public function execute(Analysis $analysis): AnalysisInputDTO
     {
-        $coords = new CoordinatesDTO($lat, $lon);
-
+        $coords = new CoordinatesDTO($analysis->lat, $analysis->lng);
+        info('Before fetchAllData from OSM');
         $data = $this->gis->fetchAllData($coords);
-
-        $planInfo = $this->plans->fetch($coords);
-        $planRestrictions = $planInfo->hasPlan
-            ? $this->planMapper->map($planInfo)
-            : null;
-
-        $demography = $this->demography->fetch($data['parcel']->gmina);
+        info('Data from OSM: ');
+        var_dump($data);
+//        $parts = array_map('trim', explode(',', $analysis->address));
+//
+//        $gmina = count($parts) >= 3
+//            ? $parts[count($parts) - 3]
+//            : null;
+//
+//        $demography = $this->demography->fetch($gmina);
 
         return new AnalysisInputDTO(
-            parcel: $data['parcel'],
             surroundings: $data['surroundings'],
-            demography: $demography,
-            planRestrictions: $planRestrictions
+            legalConstraints: $data['legalConstraints'],
         );
     }
 }

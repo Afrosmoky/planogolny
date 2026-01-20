@@ -23,7 +23,7 @@ final class PlanInfoProvider
     {
         // WMS GetFeatureInfo – punktowo
         $url = 'https://mapy.geoportal.gov.pl/wss/service/PZGIK/MPZP/WMS/Plany';
-
+        info('Before planinfo call');
         try {
             $response = $this->http->get($url, [
                 'query' => [
@@ -47,9 +47,12 @@ final class PlanInfoProvider
                     'INFO_FORMAT' => 'application/json',
                 ],
             ]);
-
+            info('After planinfo call');
             $data = json_decode((string) $response->getBody(), true);
-
+            info('Data planinfo symbol:'.$data['features'][0]['properties']['symbol']);
+            info('Data planinfo opis:'.$data['features'][0]['properties']['opis']);
+            var_dump('Response: ');
+            var_dump($data);
             if (!empty($data['features'])) {
                 return new PlanInfoDTO(
                     hasPlan: true,
@@ -60,7 +63,7 @@ final class PlanInfoProvider
             }
 
         } catch (\Throwable $e) {
-            // fallback
+            info($e->getMessage());
         }
 
         //return new PlanInfoDTO(hasPlan: false);

@@ -5,6 +5,7 @@ use App\Enums\AnalysisStatus;
 use App\Models\Analysis;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Planogolny\Analysis\Jobs\RunAnalysisJob;
 
 final class AnalysisController
 {
@@ -20,35 +21,34 @@ final class AnalysisController
             'lat' => $request->lat,
             'lng' => $request->lng,
             'status' => AnalysisStatus::PROCESSING,
+            'session_id' => session()->getId()
         ]);
 
-        // TODO tu później OSM / GIS
+        RunAnalysisJob::dispatch($analysis->id);
+
         return redirect()->route('analysis.processing', $analysis);
     }
 
     public function processing(Analysis $analysis)
     {
-        if ($analysis->status === AnalysisStatus::DONE) {
-            return redirect()->route('analysis.result', $analysis);
-        }
-        //dd($analysis);
+//        dd($analysis);
         return inertia('Analysis/Processing', [
             'analysisId' => $analysis->id,
             'status' => $analysis->status,
         ]);
     }
 
-    public function result(int $analysisId)
-    {
-        return Inertia::render('Analysis/Result', [
-            'analysisId' => $analysisId,
-            'preview' => [
-                'jednorodzinna' => 50,
-                'wielorodzinna' => 20,
-                'uslugowa' => 10,
-                'przemyslowa' => 0,
-                'zielone' => 20,
-            ],
-        ]);
-    }
+//    public function result(int $analysisId)
+//    {
+//        return Inertia::render('Analysis/Result', [
+//            'analysisId' => $analysisId,
+//            'preview' => [
+//                'jednorodzinna' => 50,
+//                'wielorodzinna' => 20,
+//                'uslugowa' => 10,
+//                'przemyslowa' => 0,
+//                'zielone' => 20,
+//            ],
+//        ]);
+//    }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Planogolny\GIS\Facades;
 
+use Planogolny\Analysis\Actions\CalculateLegalConstraintsAction;
 use Planogolny\GIS\DTO\CoordinatesDTO;
 use Planogolny\GIS\DTO\ParcelDTO;
 use Planogolny\GIS\DTO\SurroundingDTO;
@@ -24,33 +25,33 @@ final class GISFacade
             'lon' => $coords->lon,
         ];
 
-        $parcel = new ParcelDTO(
-            gmina: null,
-            powiat: null,
-            wojewodztwo: null,
-            parcelId: null,
-
-            geometry: null,                 // brak EGiB
-            centroid: $referencePoint,      // punkt analizy = centroid
-
-            raw: [
-                'referencePoint' => $referencePoint,
-                'source' => 'user_point',
-            ]
-        );
+        $rail = $this->osm->fetchRail($coords);
+        $water = $this->osm->fetchWater($coords);
 
         $surroundings = $this->aggregator->aggregate(
             parcelLat: $referencePoint['lat'],
             parcelLon: $referencePoint['lon'],
             buildings: $this->osm->fetchBuildings($coords),
             roads: $this->osm->fetchRoads($coords),
-            rail: $this->osm->fetchRail($coords),
-            water: $this->osm->fetchWater($coords),
+            rail: $rail,
+            water: $water,
+        );
+
+        $legalConstraints = app(CalculateLegalConstraintsAction::class)->execute(
+            $coords,
+            array(
+                'water' => $water,
+                'embankment' => $this->osm->fetchEmbankment($coords),
+                'rail' => $rail,
+                'motorway' => $this->osm->fetchMotorway($coords),
+                'power' => $this->osm->fetchPower($coords),
+                'cemetery' => $this->osm->fetchCemetery($coords),
+            )
         );
 
         return [
-            'parcel' => $parcel,
             'surroundings' => $surroundings,
+            'legalConstraints' => $legalConstraints,
         ];
     }
 }

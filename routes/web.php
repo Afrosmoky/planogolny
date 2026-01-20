@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalysisStatusController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\PaymentController;
@@ -39,6 +40,9 @@ Route::get('/payment/{analysis}', [PaymentController::class, 'checkout'])->name(
 Route::post('/payment/{analysisId}/payment/start', [PaymentController::class, 'start'])->name('payment.start');
 
 Route::get('/payment/{order}/success', [PaymentController::class, 'success'])->name('payment.success');
+
+Route::get('/analysis/{analysis}/status', AnalysisStatusController::class)
+    ->name('analysis.status');
 
 Route::get('/payment/{order}/status', function (Order $order) {
     return response()->json([

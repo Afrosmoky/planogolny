@@ -23,6 +23,10 @@
             <slot />
             <!-- PAGE CONTENT -->
 
+            <!--- Footer goes here-->
+            <FooterCountdown />
+
 </template>
 <script setup lang="ts">
+import FooterCountdown from "@/Components/FooterCountdown.vue";
 </script>

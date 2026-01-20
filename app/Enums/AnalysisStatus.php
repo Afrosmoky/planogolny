@@ -6,5 +6,5 @@ enum AnalysisStatus: string
     case PROCESSING = 'processing';
     case FOUND = 'found';
     case NOT_FOUND = 'not_found';
-    case DONE = 'done'; // ← to jest TEN status
+    case READY = 'ready'; // ← to jest TEN status
 }

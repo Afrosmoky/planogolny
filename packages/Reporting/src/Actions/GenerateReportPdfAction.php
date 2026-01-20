@@ -2,6 +2,7 @@
 
 namespace Planogolny\Reporting\Actions;
 
+use App\Actions\BuildReportDataAction;
 use Planogolny\Orders\Models\Order;
 use Planogolny\Reporting\DTO\ReportPdfDTO;
 use Planogolny\Reporting\Services\PdfRenderer;
@@ -14,12 +15,17 @@ final class GenerateReportPdfAction
 
     public function execute(Order $order): ReportPdfDTO
     {
+        $order->load('analysis');
+
+        $data = app(BuildReportDataAction::class)->execute($order->analysis()->getResults());
+
         $html = view('reports.placeholder', [
             'order' => $order,
+            ...$data,
         ])->render();
 
         return new ReportPdfDTO(
-            filename: 'raport-planogolny-'.$order->id.'.pdf',
+            filename: 'raport-'.$order->report_number.'.pdf',
             pdfBinary: $this->renderer->render($html)
         );
     }

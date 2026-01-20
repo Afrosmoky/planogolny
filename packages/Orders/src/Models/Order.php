@@ -2,6 +2,7 @@
 
 namespace Planogolny\Orders\Models;
 
+use App\Models\Analysis;
 use Illuminate\Database\Eloquent\Model;
 use Planogolny\Orders\Enums\OrderStatus;
 
@@ -10,6 +11,8 @@ class Order extends Model
     protected $table = 'orders';
 
     protected $fillable = [
+        'analysis_id',
+        'report_number',
         'email',
         'address_text',
         'amount',
@@ -38,4 +41,9 @@ class Order extends Model
         'amount' => 'int',
         'invoice_data' => 'array',
     ];
+
+    public function analysis()
+    {
+        return $this->belongsTo(Analysis::class);
+    }
 }

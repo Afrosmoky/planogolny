@@ -15,6 +15,7 @@ final class OrderFulfilledMail extends Mailable
 
     public function build()
     {
+        $this->order->load('analysis');
         $mail = $this->subject('Raport i faktura')
             ->view('emails.report', [
                 'order' => $this->order,

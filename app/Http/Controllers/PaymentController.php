@@ -29,7 +29,7 @@ final class PaymentController
 
         $order = $createOrder->execute(
             new OrderDTO(
-                //email: 'placeholder@planogolny.info', // później z formularza
+                analysisId: $analysisId,
                 email: $request->input('invoice_data.email'),
                 addressText: "Analysis #{$analysisId}",
                 amount: 1,

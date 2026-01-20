@@ -101,6 +101,13 @@ onUnmounted(() => {
                                 <div>Zielone / rolne: <strong>20%</strong></div>
                             </div>
                         </div>
+
+                        <div  class="btn_top">
+                            <h3>Ograniczenia wynikające z przepisów odrębnych</h3>
+                            <p>Poniższe informacje wskazują na uwarunkowania wynikające z obowiązujących przepisów prawa, które mogą wpływać na możliwości zagospodarowania terenu niezależnie od ustaleń planu ogólnego.</p>
+                        </div>
+
+                        <!-- TODO: Tutaj idzie info z BuildLegalConstraintsActions dotyczące ograniczeń
                     </div>
                 </div>
             </div>

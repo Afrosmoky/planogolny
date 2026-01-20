@@ -8,7 +8,16 @@
 <p>Dzień dobry,</p>
 
 <p>
-    W załączniku przesyłamy raport planistyczny dla wskazanej lokalizacji oraz fakturę zakupu raportu.
+    W załączniku przesyłamy raport planistyczny dla wskazanej lokalizacji:<br>
+
+    Adres nieruchomości: {{ $order->analysis->address }}<br/>
+
+    Współrzędne lokalizacji nieruchomości: {{ $order->analysis->lat }},
+    {{ $order->analysis->lng }}
+</p>
+
+<p>
+    W załączniku znajduje się również faktura zakupu raportu.
 </p>
 
 <p>

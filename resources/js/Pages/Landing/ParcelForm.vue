@@ -20,6 +20,7 @@ const form = useForm({
     miejscowosc: '',
     ulica: '',
     numer: '',
+    address: '',
     lat: null,
     lng: null,
 })
@@ -108,7 +109,7 @@ function handleSubmit() {
     if (!markerConfirmed.value) {
         return
     }
-
+    form.address = fullAddress.value
     // ✅ FINALNY SUBMIT
     form.post('/analysis/start')
 }
