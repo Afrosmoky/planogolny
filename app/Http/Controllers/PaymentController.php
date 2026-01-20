@@ -72,6 +72,8 @@ final class PaymentController
 
         $order->load('analysis');
 
+        abort_unless($order->analysis->session_id === session()->getId(), 403);
+
         $analysis = $order->analysis;
         $result = $analysis?->result;
 

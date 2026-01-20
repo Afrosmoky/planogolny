@@ -73,19 +73,22 @@ onUnmounted(() => {
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container">
 
             <!-- RAPORT -->
             <div v-if="paymentStatus === 'paid'" class="col-xl-10 mx-auto">
-
+                <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2 mb-6">
                 <!-- DANE -->
-                <div class="box mb-4">
-                    <strong>Analizowany adres:</strong><br>
-                    {{ report.order.address }}
-                </div>
+                    <div class="box mb-4">
+                        <strong>Analizowany adres:</strong><br>
+                        {{ report.order.address }}
+                    </div>
 
-                <div class="box mb-6">
-                    <strong>Analizowane współrzędne:</strong><br>
-                    {{ report.order.lat }}, {{ report.order.lng }}
+                    <div class="box mb-6">
+                        <strong>Analizowane współrzędne:</strong><br>
+                        {{ report.order.lat }}, {{ report.order.lng }}
+                    </div>
                 </div>
 
                 <!-- OTOCZENIE -->
