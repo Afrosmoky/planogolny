@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace Planogolny\Reporting\Actions;
 
 use App\Models\AnalysisResult;
 use Placeholder\Reporting\Actions\BuildSurroundingsReportAction;

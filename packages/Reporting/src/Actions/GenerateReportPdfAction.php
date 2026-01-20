@@ -2,7 +2,7 @@
 
 namespace Planogolny\Reporting\Actions;
 
-use App\Actions\BuildReportDataAction;
+use Planogolny\Reporting\Actions\BuildReportDataAction;
 use Planogolny\Orders\Models\Order;
 use Planogolny\Reporting\DTO\ReportPdfDTO;
 use Planogolny\Reporting\Services\PdfRenderer;
