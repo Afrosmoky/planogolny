@@ -11,4 +11,14 @@ final class SurroundingsReportDTO
     public array $bulletPoints = [];
 
     public string $summary;
+
+    public function toArray(): array
+    {
+        return [
+            'hasDevelopment' => $this->hasDevelopment,
+            'developmentDescription' => $this->developmentDescription,
+            'bulletPoints' => $this->bulletPoints,
+            'summary' => $this->summary,
+        ];
+    }
 }

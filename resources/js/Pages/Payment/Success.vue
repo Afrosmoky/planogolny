@@ -7,10 +7,11 @@ defineOptions({ layout: AppLayout })
 
 const props = defineProps({
     orderId: Number,
-    results: Object
+    status: String,
+    report: Object,
 })
 
-const status = ref('created')
+const paymentStatus = ref(props.status)
 let interval = null
 let attempts = 0
 const MAX_ATTEMPTS = 24
@@ -21,14 +22,15 @@ const checkStatus = async () => {
         clearInterval(interval)
         return
     }
+
     try {
         const response = await axios.get(
             route('payment.status', { order: props.orderId })
         )
 
-        status.value = response.data.status
+        paymentStatus.value = response.data.status
 
-        if (status.value === 'paid' || status.value === 'completed') {
+        if (paymentStatus.value === 'paid' || paymentStatus.value === 'completed') {
             clearInterval(interval)
             interval = null
         }
@@ -38,76 +40,105 @@ const checkStatus = async () => {
 }
 
 onMounted(() => {
-    checkStatus()
-    interval = setInterval(checkStatus, 5000)
+    if (paymentStatus.value !== 'paid') {
+        checkStatus()
+        interval = setInterval(checkStatus, 5000)
+    }
 })
 
 onUnmounted(() => {
     clearInterval(interval)
 })
-
 </script>
 
 <template>
     <section class="wrapper pb-14 pb-md-16">
-
         <div class="container text-center">
+
+            <!-- STATUS -->
             <div class="row pb-10">
-                <div
-                    class="col-lg-7 col-xxl-6 mx-auto text-center"
+                <div class="col-lg-7 col-xxl-6 mx-auto">
+                    <div v-if="paymentStatus === 'created'" class="btn_top">
+                        <h3>Twoja płatność jest w trakcie realizacji…</h3>
+                        <p>Prosimy nie zamykać strony.</p>
+                    </div>
 
-                >
-                    <div
-                        class="d-flex justify-content-center mb-5 mb-md-0"
+                    <div v-else-if="paymentStatus === 'failed'" class="btn_top">
+                        <h3>Płatność nie powiodła się</h3>
+                        <p>Spróbuj ponownie.</p>
+                    </div>
 
-                    >
-                        <div v-if="status === 'created'" class="btn_top">
-                            <h3>Twoja płatność jest w trakcie realizacji…</h3>
-                            <p>Prosimy nie zamykać strony.</p>
-                        </div>
-
-                        <div v-else-if="status === 'paid'" class="btn_top">
-                            <h3>
-                                RAPORT – Plan Ogólny
-                            </h3>
-                        </div>
-
-                        <div v-else-if="status === 'failed'" class="btn_top">
-                            <h3>Płatność nie powiodła się</h3>
-                            <p>Spróbuj ponownie.</p>
-                        </div>
-
+                    <div v-else-if="paymentStatus === 'paid'" class="btn_top">
+                        <h3>Raport planistyczny nr: {{ report.order.reportNumber }}</h3>
                     </div>
                 </div>
             </div>
-            <div v-if="status === 'paid'" class="col-xl-10 mx-auto">
 
-                <div class="row gy-10 gx-lg-8 gx-xl-12">
-                    <div class="col-lg-6">
-                        <div class="mb-4">
-                            <div class="d-flex gap-6">
-                                <div>Zabudowa jednorodzinna: <strong>50%</strong></div>
-                            </div>
-                            <div class="d-flex gap-6">
-                                <div>Wielorodzinna: <strong>20%</strong></div>
-                            </div>
-                            <div class="d-flex gap-6">
-                                <div>Usługowa: <strong>10%</strong></div>
-                            </div>
-                            <div class="d-flex gap-6">
-                                <div>Przemysłowa: <strong>0%</strong></div>
-                            </div>
-                            <div class="d-flex gap-6">
-                                <div>Zielone / rolne: <strong>20%</strong></div>
-                            </div>
-                        </div>
+            <!-- RAPORT -->
+            <div v-if="paymentStatus === 'paid'" class="col-xl-10 mx-auto">
 
-                        <div  class="btn_top">
-                            <h3>Ograniczenia wynikające z przepisów odrębnych</h3>
-                            <p>Poniższe informacje wskazują na uwarunkowania wynikające z obowiązujących przepisów prawa, które mogą wpływać na możliwości zagospodarowania terenu niezależnie od ustaleń planu ogólnego.</p>
-                        </div>
-                    </div>
+                <!-- DANE -->
+                <div class="box mb-4">
+                    <strong>Analizowany adres:</strong><br>
+                    {{ report.order.address }}
                 </div>
+
+                <div class="box mb-6">
+                    <strong>Analizowane współrzędne:</strong><br>
+                    {{ report.order.lat }}, {{ report.order.lng }}
+                </div>
+
+                <!-- OTOCZENIE -->
+                <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2 mb-6">
+                    <h2>Otoczenie działki</h2>
+
+                    <p>{{ report.surroundings.developmentDescription }}</p>
+
+                    <ul v-if="report.surroundings.bulletPoints?.length">
+                        <li v-for="(point, i) in report.surroundings.bulletPoints" :key="i">
+                            {{ point }}
+                        </li>
+                    </ul>
+
+                    <p><strong>Podsumowanie:</strong> {{ report.surroundings.summary }}</p>
+                </div>
+
+                <!-- OGRANICZENIA -->
+                <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2 mb-6">
+                    <h2>Ograniczenia wynikające z przepisów odrębnych</h2>
+
+                    <template v-if="report.legalConstraints.hasAnyRestrictions">
+                        <ul>
+                            <li v-for="(point, i) in report.legalConstraints.bulletPoints" :key="i">
+                                {{ point }}
+                            </li>
+                        </ul>
+
+                        <div v-if="report.legalConstraints.legalBasis?.length">
+                            <p><strong>Podstawa prawna:</strong></p>
+                            <ul>
+                                <li v-for="(basis, i) in report.legalConstraints.legalBasis" :key="i">
+                                    {{ basis }}
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+
+                    <p v-else>
+                        Nie stwierdzono istotnych ograniczeń wynikających z przepisów odrębnych
+                        w bezpośrednim otoczeniu działki.
+                    </p>
+
+                    <p><strong>Podsumowanie:</strong> {{ report.legalConstraints.summary }}</p>
+                </div>
+
+                <!-- FINAL -->
+                <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2">
+                    <h2>{{ report.finalSummary.headline }}</h2>
+                    <p>{{ report.finalSummary.body }}</p>
+                    <p><strong>{{ report.finalSummary.callToAction }}</strong></p>
+                </div>
+
             </div>
         </div>
     </section>

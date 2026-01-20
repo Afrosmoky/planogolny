@@ -3,8 +3,11 @@ import { ref, onMounted, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { loadGoogleMaps } from '@/googleMaps'
+import { watch } from 'vue'
 
 let map = null
+
+const addressDirty = ref(false)
 
 defineOptions({ layout: AppLayout })
 
@@ -39,6 +42,22 @@ const fullAddress = computed(() => {
         .filter(Boolean)
         .join(', ')
 })
+
+watch(
+    () => [
+        form.wojewodztwo,
+        form.gmina,
+        form.miejscowosc,
+        form.ulica,
+        form.numer,
+    ],
+    () => {
+        if (form.lat && form.lng) {
+            addressDirty.value = true
+            markerConfirmed.value = false
+        }
+    }
+)
 
 let geocoder
 
@@ -95,22 +114,21 @@ function geocodeAddress() {
         markerRef.value.setVisible(true)
 
         markerConfirmed.value = false
+        addressDirty.value = false
     })
 }
 
 function handleSubmit() {
-    // JEŚLI nie mamy jeszcze współrzędnych → geokodujemy
-    if (!form.lat || !form.lng) {
+    if (!form.lat || addressDirty.value) {
         geocodeAddress()
         return
     }
 
-    // JEŚLI mamy pinezkę, ale brak potwierdzenia → stop
     if (!markerConfirmed.value) {
         return
     }
+
     form.address = fullAddress.value
-    // ✅ FINALNY SUBMIT
     form.post('/analysis/start')
 }
 </script>
@@ -161,8 +179,12 @@ function handleSubmit() {
                                         <input
                                             type="submit"
                                             class="button_zielony mb-3"
-                                            :value="form.lat ? 'Zatwierdź lokalizację »' : 'Pokaż na mapie »'"
-                                            :disabled="form.lat && !markerConfirmed"
+                                            :value="(!form.lat || addressDirty)
+    ? 'Pokaż na mapie »'
+    : 'Zatwierdź lokalizację »'"
+                                            :disabled="!form.lat || addressDirty
+    ? false
+    : !markerConfirmed"
                                         />
                                     </div>
                                 </div>

@@ -9,6 +9,7 @@ use Planogolny\Orders\DTO\OrderDTO;
 use Planogolny\Orders\Models\Order;
 use Planogolny\Payments\Actions\CreateTpayTransactionAction;
 use Planogolny\Payments\DTO\TpayTransactionDTO;
+use Planogolny\Reporting\Actions\BuildReportDataAction;
 
 final class PaymentController
 {
@@ -69,9 +70,27 @@ final class PaymentController
             ]);
         }
 
+        $order->load('analysis');
+
+        $analysis = $order->analysis;
+        $result = $analysis?->result;
+
+        $data = app(BuildReportDataAction::class)->execute($result);
+
         return inertia('Payment/Success', [
             'orderId' => $order->id,
-            'downloadUrl' => route('report.download', $order->id),
+            'status' => $order->status,
+            'report' => [
+                'order' => [
+                    'reportNumber' => $order->report_number,
+                    'address' => $order->analysis->address,
+                    'lat' => $order->analysis->lat,
+                    'lng' => $order->analysis->lng,
+                ],
+                'surroundings' => $data['surroundings']->toArray(),
+                'legalConstraints' => $data['legalConstraints']->toArray(),
+                'finalSummary' => $data['finalSummary']->toArray(),
+            ],
         ]);
     }
 

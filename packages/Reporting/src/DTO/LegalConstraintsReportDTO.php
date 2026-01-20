@@ -13,4 +13,14 @@ final class LegalConstraintsReportDTO
     public array $legalBasis = [];
 
     public string $summary;
+
+    public function toArray(): array
+    {
+        return [
+            'hasAnyRestrictions' => $this->hasAnyRestrictions,
+            'bulletPoints' => $this->bulletPoints,
+            'legalBasis' => $this->legalBasis,
+            'summary' => $this->summary,
+        ];
+    }
 }
