@@ -15,9 +15,12 @@ final class GenerateReportPdfAction
 
     public function execute(Order $order): ReportPdfDTO
     {
-        $order->load('analysis');
+        $order->load('analysis.result');
 
-        $data = app(BuildReportDataAction::class)->execute($order->analysis()->result());
+        $analysis = $order->analysis;
+        $result = $analysis?->result;
+
+        $data = app(BuildReportDataAction::class)->execute($result);
 
         $html = view('reports.placeholder', [
             'order' => $order,
