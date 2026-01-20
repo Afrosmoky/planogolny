@@ -1,6 +1,6 @@
 <?php
 
-namespace Placeholder\Reporting\Actions;
+namespace Planogolny\Reporting\Actions;
 
 use Planogolny\Reporting\DTO\SurroundingsReportDTO;
 

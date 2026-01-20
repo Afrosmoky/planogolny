@@ -3,7 +3,7 @@
 namespace Planogolny\Reporting\Actions;
 
 use App\Models\AnalysisResult;
-use Placeholder\Reporting\Actions\BuildSurroundingsReportAction;
+use Planogolny\Reporting\Actions\BuildSurroundingsReportAction;
 use Planogolny\Analysis\DTO\LegalConstraintsDTO;
 use Planogolny\Reporting\Actions\BuildFinalSummaryReportAction;
 use Planogolny\Reporting\Actions\BuildLegalConstraintsReportAction;
