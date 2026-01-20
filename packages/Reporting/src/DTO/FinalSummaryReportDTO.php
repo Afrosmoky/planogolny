@@ -1,6 +1,6 @@
 <?php
 
-namespace Planogolny\Reporting\Actions;
+namespace Planogolny\Reporting\DTO;
 
 final class FinalSummaryReportDTO
 {
