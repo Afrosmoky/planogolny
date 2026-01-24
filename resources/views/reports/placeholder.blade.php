@@ -165,6 +165,14 @@
                             </strong>
                         </p>
                     </div>
+                    <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2">
+                        <p>Zastrzeżenie: Raport nie jest dokumentem urzędowym i nie przesądza o przeznaczeniu terenu.
+                            Przedstawia wyłącznie możliwe scenariusze wygenerowane algorytmicznie na podstawie danych publicznych;
+                            wiążące ustalenia wynikają wyłącznie z aktów planistycznych właściwych organów.</p>
+
+
+                        <p>Korzystanie z raportu odbywa się na wyłączną odpowiedzialność Użytkownika i nie zwalnia go z obowiązku samodzielnej weryfikacji informacji w urzędzie gminy lub miasta.</p>
+                    </div>
 
 {{--                    <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2">--}}
 {{--                        <div>Zabudowa jednorodzinna: <strong>50%</strong></div>--}}
