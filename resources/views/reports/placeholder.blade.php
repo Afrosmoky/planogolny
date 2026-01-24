@@ -74,6 +74,27 @@
                     <div class="box">
                         Raport ma charakter informacyjny i nie stanowi decyzji administracyjnej.
                     </div>
+                    @php
+                        $labels = [
+                            'residential_single' => 'Zabudowa mieszkaniowa jednorodzinna',
+                            'residential_multi'  => 'Zabudowa mieszkaniowa wielorodzinna',
+                            'service'            => 'Zabudowa usługowo-handlowa',
+                            'industrial'         => 'Zabudowa przemysłowa',
+                            'green'              => 'Tereny zielone / rolne / inne',
+                        ];
+                    @endphp
+                    <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2">
+                        <h2>Prawdopodobieństwo przeznaczenia terenu w Planie Ogólnym</h2>
+
+                        <table>
+                            @foreach ($landUseProbabilities as $key => $percent)
+                                <tr>
+                                    <td>{{ $labels[$key] ?? $key }}</td>
+                                    <td>{{ $percent }}%</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                     <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2">
                         <h2>Otoczenie działki</h2>
 

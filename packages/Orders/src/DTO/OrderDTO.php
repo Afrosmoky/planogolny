@@ -8,7 +8,7 @@ final readonly class OrderDTO
         public int $analysisId,
         public string $email,
         public string $addressText,
-        public int $amount,
+        public float $amount,
         public string $currency = 'PLN',
         public string $paymentProvider = 'TPay',
         public string $invoiceType,

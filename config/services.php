@@ -37,6 +37,11 @@ return [
 
     'google' => [
         'maps_key' => env('GOOGLE_MAPS_KEY'),
-    ]
+    ],
+
+    'hcaptcha' => [
+        'sitekey' => env('HCAPTCHA_SITEKEY'),
+        'secret' => env('HCAPTCHA_SECRET'),
+    ],
 
 ];

@@ -25,12 +25,18 @@ final class BuildReportDataAction
             $result->legal_constraints
         );
 
+        $landUseProbabilities = app(BuildLandUseProbabilityAction::class)
+            ->execute(
+                $result->surroundings
+            );
+
         return [
 //            'parcel' => $result->parcel,
             'legalConstraints' => $legal,
             'surroundings' => $surroundings,
             'finalSummary' => $finalSummary,
             'meta' => $result->meta,
+            'landUseProbabilities' => $landUseProbabilities,
         ];
     }
 }

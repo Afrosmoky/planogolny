@@ -11,6 +11,18 @@ const props = defineProps({
     report: Object,
 })
 
+function label(key) {
+    const map = {
+        residential_single: 'Zabudowa mieszkaniowa jednorodzinna',
+        residential_multi: 'Zabudowa mieszkaniowa wielorodzinna',
+        service: 'Zabudowa usługowo-handlowa',
+        industrial: 'Zabudowa przemysłowa',
+        green: 'Tereny zielone / rolne / inne',
+    }
+
+    return map[key] ?? key
+}
+
 const paymentStatus = ref(props.status)
 let interval = null
 let attempts = 0
@@ -91,8 +103,41 @@ onUnmounted(() => {
                     </div>
                 </div>
 
+                <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2 mb-6">
+                    <h1>Wynik analizy działki</h1>
+
+                    <p>
+                        Poniżej przedstawiono szacunkowe prawdopodobieństwo
+                        przeznaczenia analizowanego terenu w Planie Ogólnym.
+                    </p>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Rodzaj przeznaczenia</th>
+                            <th>Prawdopodobieństwo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr
+                            v-for="(percent, key) in report.landUseProbabilities"
+                            :key="key"
+                        >
+                            <td>{{ label(key) }}</td>
+                            <td>{{ percent }}%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="mt-3 text-muted">
+                        Wartości mają charakter informacyjny i stanowią interpretację
+                        uwarunkowań przestrzennych na potrzeby planu ogólnego.
+                    </p>
+                </div>
+
                 <!-- OTOCZENIE -->
                 <div class="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-2 mb-6">
+                    <h1>Opis analizy</h1>
                     <h2>Otoczenie działki</h2>
 
                     <p>{{ report.surroundings.developmentDescription }}</p>

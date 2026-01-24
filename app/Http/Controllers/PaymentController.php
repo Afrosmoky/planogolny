@@ -33,7 +33,7 @@ final class PaymentController
                 analysisId: $analysisId,
                 email: $request->input('invoice_data.email'),
                 addressText: "Analysis #{$analysisId}",
-                amount: 1,
+                amount: 49.99,
                 currency: 'PLN',
                 paymentProvider: 'TPay',
                 invoiceType: $request->input('invoice_type'),
@@ -72,7 +72,7 @@ final class PaymentController
 
         $order->load('analysis');
 
-        abort_unless($order->analysis->session_id === session()->getId(), 403);
+        //abort_unless($order->analysis->session_id === session()->getId(), 403);
 
         $analysis = $order->analysis;
         $result = $analysis?->result;
@@ -92,6 +92,7 @@ final class PaymentController
                 'surroundings' => $data['surroundings']->toArray(),
                 'legalConstraints' => $data['legalConstraints']->toArray(),
                 'finalSummary' => $data['finalSummary']->toArray(),
+                'landUseProbabilities' => $data['landUseProbabilities'],
             ],
         ]);
     }

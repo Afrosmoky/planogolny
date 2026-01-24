@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, nextTick } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { loadGoogleMaps } from '@/googleMaps'
@@ -7,7 +7,32 @@ import { watch } from 'vue'
 
 let map = null
 
+const captchaRef = ref(null)
+
 const addressDirty = ref(false)
+const captchaToken = ref(null)
+
+// onMounted(() => {
+//     if (!window.hcaptcha) {
+//         console.error('hCaptcha script not loaded')
+//         return
+//     }
+//
+//     window.hcaptcha.render(captchaRef.value, {
+//         sitekey: import.meta.env.VITE_HCAPTCHA_SITEKEY,
+//         callback: (token) => {
+//             captchaToken.value = token
+//         },
+//         'error-callback': () => {
+//             captchaToken.value = null
+//         },
+//         'expired-callback': () => {
+//             captchaToken.value = null
+//         },
+//     })
+// })
+
+
 
 defineOptions({ layout: AppLayout })
 
@@ -26,6 +51,33 @@ const form = useForm({
     address: '',
     lat: null,
     lng: null,
+    captcha_token: null,
+})
+
+const showCaptcha = computed(() =>
+    form.lat && !addressDirty.value
+)
+
+watch(showCaptcha, async (visible) => {
+    if (!visible) return
+    console.log('showCaptcha:', visible)
+    console.log('captchaRef:', captchaRef.value)
+    await nextTick() // ⬅️ KLUCZ
+
+    if (!captchaRef.value || !window.hcaptcha) {
+        console.warn('Captcha not ready')
+        return
+    }
+
+    window.hcaptcha.render(captchaRef.value, {
+        sitekey: import.meta.env.VITE_HCAPTCHA_SITEKEY,
+        callback: (token) => {
+            captchaToken.value = token
+        },
+        'expired-callback': () => {
+            captchaToken.value = null
+        },
+    })
 })
 
 /**
@@ -128,9 +180,16 @@ function handleSubmit() {
         return
     }
 
+    if (!captchaToken.value) {
+        alert('Potwierdź, że nie jesteś robotem')
+        return
+    }
+
+    form.captcha_token = captchaToken.value
     form.address = fullAddress.value
     form.post('/analysis/start')
 }
+
 </script>
 
 <template>
@@ -173,6 +232,10 @@ function handleSubmit() {
                                             <input id="form_number" v-model="form.numer" placeholder="Numer porządkowy" class="form-control" />
                                             <label for="form_number">Numer porządkowy</label>
                                         </div>
+                                    </div>
+
+                                    <div v-if="showCaptcha" class="mt-4">
+                                        <div ref="captchaRef"></div>
                                     </div>
 
                                     <div class="col-md-7 text-center mx-auto mt-4">

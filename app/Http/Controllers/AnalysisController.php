@@ -5,17 +5,38 @@ use App\Enums\AnalysisStatus;
 use App\Models\Analysis;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Planogolny\Analysis\Jobs\RunAnalysisJob;
 
 final class AnalysisController
 {
     public function form(): \Inertia\Response
     {
-        return Inertia::render('Landing/ParcelForm');
+        return Inertia::render('Landing/ParcelForm', []);
     }
 
     public function start(Request $request)
     {
+        $request->validate([
+            'captcha_token' => ['required', 'string'],
+            'lat' => ['required', 'numeric'],
+            'lng' => ['required', 'numeric'],
+            'address' => ['required', 'string'],
+        ]);
+
+        $response = Http::asForm()->post(
+            'https://hcaptcha.com/siteverify',
+            [
+                'secret' => config('services.hcaptcha.secret'),
+                'response' => $request->captcha_token,
+                'remoteip' => $request->ip(),
+            ]
+        );
+
+        if (!($response->json('success') ?? false)) {
+            abort(422, 'Captcha verification failed');
+        }
+
         $analysis = Analysis::create([
             'address' => $request->address,
             'lat' => $request->lat,

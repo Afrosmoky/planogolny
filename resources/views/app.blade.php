@@ -84,7 +84,7 @@
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="./ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
-
+        <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
@@ -97,6 +97,5 @@
     <body class="bg_all">
         @inertia
         <script src="/assets/js/plugins.js"></script>
-        <script src="/assets/js/theme.js"></script>
     </body>
 </html>
