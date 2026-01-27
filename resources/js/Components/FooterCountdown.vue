@@ -15,7 +15,7 @@
 
                     <!-- LINKS -->
                     <div class="col-md-6 text-center text-md-end">
-                        <a href="/assets/files/Regulamin_Planogolny_info_PTAHA.docx" target="_blank" class="footer-link">
+                        <a href="/assets/files/Regulamin_Planogolny.docx" target="_blank" class="footer-link">
                             Regulamin
                         </a>
                         <span class="separator">|</span>
