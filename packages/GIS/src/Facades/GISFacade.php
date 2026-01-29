@@ -6,8 +6,6 @@ namespace Planogolny\GIS\Facades;
 
 use Planogolny\Analysis\Actions\CalculateLegalConstraintsAction;
 use Planogolny\GIS\DTO\CoordinatesDTO;
-use Planogolny\GIS\DTO\ParcelDTO;
-use Planogolny\GIS\DTO\SurroundingDTO;
 use Planogolny\GIS\Services\OsmProvider;
 use Planogolny\GIS\Services\SurroundingsAggregator;
 

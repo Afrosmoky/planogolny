@@ -47,6 +47,7 @@ final readonly class TpayClient
         $token = $this->getAccessToken();
         info("Notification url: ".$payload['notify_url']);
         info("Success url: ".$payload['return_url']);
+        info('Paid amount: '.$payload['amount']);
         $response = Http::withToken($token)
             ->acceptJson()
             ->post($this->baseUrl . '/transactions', [

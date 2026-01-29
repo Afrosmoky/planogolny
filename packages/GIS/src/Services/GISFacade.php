@@ -3,8 +3,6 @@
 namespace Planogolny\GIS\Services;
 
 use Planogolny\GIS\DTO\CoordinatesDTO;
-use Planogolny\GIS\DTO\ParcelDTO;
-use Planogolny\GIS\DTO\SurroundingDTO;
 class GISFacade
 {
     public function __construct(

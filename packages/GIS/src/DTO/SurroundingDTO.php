@@ -6,7 +6,8 @@ final readonly class SurroundingDTO
 {
     public function __construct(
         public int $buildingCount,
-        public int $residentialCount,
+        public int $residentialSingleCount,
+        public int $residentialMultiCount,
         public int $serviceCount,
         public int $industrialCount,
         public bool $hasMainRoad,
@@ -18,7 +19,8 @@ final readonly class SurroundingDTO
     {
         return [
             'buildingCount' => $this->buildingCount,
-            'residentialCount' => $this->residentialCount,
+            'residentialSingleCount' => $this->residentialSingleCount,
+            'residentialMultiCount' => $this->residentialMultiCount,
             'serviceCount' => $this->serviceCount,
             'industrialCount' => $this->industrialCount,
             'hasMainRoad' => $this->hasMainRoad,

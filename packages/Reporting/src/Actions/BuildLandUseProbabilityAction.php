@@ -6,7 +6,7 @@ final class BuildLandUseProbabilityAction
 {
     public function execute(array $surroundings): array
     {
-        // 1️⃣ HARD FALLBACK – brak danych OSM
+
         $noBuildingData = ($surroundings['buildingCount'] ?? 0) === 0;
 
         if ($noBuildingData) {
@@ -19,7 +19,7 @@ final class BuildLandUseProbabilityAction
             ];
         }
 
-        // 2️⃣ LICZENIE PUNKTÓW
+
         $points = [
             'residential_single' => 0,
             'residential_multi'  => 0,
@@ -28,11 +28,17 @@ final class BuildLandUseProbabilityAction
             'green'              => 0,
         ];
 
-        // zabudowa w otoczeniu
-        if (($surroundings['residentialCount'] ?? 0) > 0) {
+
+
+        if (($surroundings['residentialSingleCount'] ?? 0) > 0) {
             $points['residential_single'] += 3;
-            $points['residential_multi']  += 2;
         }
+
+        if (($surroundings['residentialMultiCount'] ?? 0) > 0) {
+            $points['residential_multi'] += 2;
+        }
+
+
 
         if (($surroundings['serviceCount'] ?? 0) > 0) {
             $points['service'] += 2;
@@ -42,12 +48,8 @@ final class BuildLandUseProbabilityAction
             $points['industrial'] += 2;
         }
 
-        // brak zabudowy = tereny zielone
-        if (($surroundings['buildingCount'] ?? 0) === 0) {
-            $points['green'] += 3;
-        }
 
-        // infrastruktura
+
         if (!empty($surroundings['hasMainRoad'])) {
             $points['service'] += 1;
             $points['industrial'] += 1;
@@ -57,11 +59,13 @@ final class BuildLandUseProbabilityAction
             $points['industrial'] += 2;
         }
 
+
+
         if (!empty($surroundings['hasWater'])) {
             $points['green'] += 2;
         }
 
-        // 3️⃣ PODZIAŁ PROCENTOWY (mieszana zabudowa)
+
         $totalUrbanPoints =
             $points['residential_single']
             + $points['residential_multi']
@@ -78,13 +82,13 @@ final class BuildLandUseProbabilityAction
 
         if ($totalUrbanPoints > 0) {
             foreach (['residential_single', 'residential_multi', 'service', 'industrial'] as $key) {
-                $result[$key] = round(
+                $result[$key] = (int) round(
                     ($points[$key] / $totalUrbanPoints) * 100
                 );
             }
         }
 
-        // 4️⃣ ZIELONE jako dopełnienie do 100%
+
         $used = array_sum($result);
         $result['green'] = max(0, 100 - $used);
 

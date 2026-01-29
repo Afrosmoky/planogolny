@@ -33,13 +33,15 @@ final class PaymentController
                 analysisId: $analysisId,
                 email: $request->input('invoice_data.email'),
                 addressText: "Analysis #{$analysisId}",
-                amount: 49.99,
+                amount: 9.99,
                 currency: 'PLN',
                 paymentProvider: 'TPay',
                 invoiceType: $request->input('invoice_type'),
                 invoiceData: $request->input('invoice_data'),
             )
         );
+
+
 
         $transaction = $createTpayTransaction->execute(
             new TpayTransactionDTO(

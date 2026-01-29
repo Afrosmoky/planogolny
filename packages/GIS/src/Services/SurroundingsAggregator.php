@@ -8,7 +8,7 @@ use Planogolny\GIS\DTO\SurroundingDTO;
 
 final class SurroundingsAggregator
 {
-    private const CONTEXT_RADIUS = 200; // metrów
+    private const CONTEXT_RADIUS = 200;
 
     public function aggregate(
         float $parcelLat,
@@ -20,7 +20,8 @@ final class SurroundingsAggregator
     ): SurroundingDTO
     {
         $buildingCount = 0;
-        $residential = 0;
+        $residentialSingle = 0;
+        $residentialMulti  = 0;
         $service = 0;
         $industrial = 0;
 
@@ -39,12 +40,15 @@ final class SurroundingsAggregator
             $buildingCount++;
 
             match ($b['type'] ?? null) {
-                'residential_single',
-                'residential_multi',
-                'residential' => $residential++,
-                'service' => $service++,
-                'industrial' => $industrial++,
-                default => null,
+                'residential_single' => $residentialSingle++,
+                'residential_multi'  => $residentialMulti++,
+
+                // fallback: building=yes / residential → MN
+                'residential'        => $residentialSingle++,
+
+                'service'            => $service++,
+                'industrial'         => $industrial++,
+                default              => null,
             };
         }
 
@@ -75,7 +79,8 @@ final class SurroundingsAggregator
 
         return new SurroundingDTO(
             buildingCount: $buildingCount,
-            residentialCount: $residential,
+            residentialSingleCount: $residentialSingle,
+            residentialMultiCount: $residentialMulti,
             serviceCount: $service,
             industrialCount: $industrial,
             hasMainRoad: $hasMainRoad,

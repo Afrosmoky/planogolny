@@ -38,7 +38,6 @@ class Order extends Model
     }
 
     protected $casts = [
-        'amount' => 'int',
         'invoice_data' => 'array',
     ];
 

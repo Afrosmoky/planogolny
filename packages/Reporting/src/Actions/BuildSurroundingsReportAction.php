@@ -20,9 +20,22 @@ final class BuildSurroundingsReportAction
                 'W analizowanym otoczeniu nie stwierdzono istotnej zabudowy.';
         }
 
-        if ($surroundings['residentialCount'] > 0) {
+        $single = $surroundings['residentialSingleCount'] ?? 0;
+        $multi  = $surroundings['residentialMultiCount'] ?? 0;
+
+        if ($single > 0 && $multi === 0) {
             $dto->bulletPoints[] =
-                'W otoczeniu dominuje zabudowa mieszkaniowa.';
+                'W otoczeniu przeważa zabudowa mieszkaniowa jednorodzinna.';
+        }
+
+        if ($multi > 0 && $single === 0) {
+            $dto->bulletPoints[] =
+                'W otoczeniu występuje zabudowa mieszkaniowa wielorodzinna.';
+        }
+
+        if ($single > 0 && $multi > 0) {
+            $dto->bulletPoints[] =
+                'W otoczeniu występuje zróżnicowana zabudowa mieszkaniowa (jedno- i wielorodzinna).';
         }
 
         if ($surroundings['serviceCount'] > 0) {
