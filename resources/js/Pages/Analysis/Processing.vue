@@ -4,6 +4,10 @@ import { usePage, Link } from '@inertiajs/vue3'
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import axios from 'axios'
 
+import AnalysisLoader from '@/Components/AnalysisLoader.vue'
+
+const loader = ref(null)
+
 defineOptions({ layout: AppLayout })
 
 defineProps({
@@ -41,12 +45,14 @@ function checkStatus() {
 }
 
 onMounted(() => {
+    loader.value.start()
     checkStatus()
     interval = setInterval(checkStatus, 5000)
 })
 
 onUnmounted(() => {
     clearInterval(interval)
+    loader.value.stop()
 })
 
 const acceptedTerms = ref(false)
@@ -76,6 +82,7 @@ const canProceed = computed(() => {
                                   &nbsp;&nbsp;&nbsp;Trwa wyszukiwanie Twojej działki<br>
                                   &nbsp;&nbsp;&nbsp;Prosimy nie zamykać okna przeglądarki
                             </h3>
+                            <AnalysisLoader ref="loader" />
                         </div>
 
                         <div v-else-if="status === 'ready'" class="btn_top">
