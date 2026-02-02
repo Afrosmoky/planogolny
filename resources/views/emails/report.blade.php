@@ -21,6 +21,24 @@
 </p>
 
 <p>
+    <strong>Informacja dodatkowa</strong><br>
+    Do wiadomości dołączono również przykładowe wzory pism, które mogą być pomocne
+    w przypadku podejmowania dalszych działań formalnych, w szczególności w zakresie:
+</p>
+
+<ul>
+    <li>wystąpienia o ustalenie warunków zabudowy lub lokalizacji inwestycji celu publicznego,</li>
+    <li>składania wniosków lub uwag dotyczących aktów planowania przestrzennego.</li>
+</ul>
+
+<p>
+    Wzory dokumentów mają charakter <strong>pomocniczy i informacyjny</strong>.
+    Ich wykorzystanie nie jest obowiązkowe i nie stanowi porady prawnej ani administracyjnej.
+    Zaleca się każdorazowo dostosowanie treści pism do indywidualnej sytuacji
+    oraz wymagań właściwego urzędu.
+</p>
+
+<p>
     Dziękujemy za skorzystanie z serwisu <strong>PlanOgólny.info</strong>.
 </p>
 
