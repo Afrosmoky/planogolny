@@ -4,31 +4,38 @@ What It Does
 
 Planogolny.info is a Laravel-based web application that analyzes land parcels in Poland using GIS data, demographic information, and a rules-based scoring engine.
 
-Users:
-1.	Enter an address or parcel number
-2.	Purchase a detailed report
-3.	Receive a generated PDF with recommendations
+## Use Case
+
+Planogolny.info helps users analyze land parcels before purchase or development.
+
+Typical scenario:
+- User enters parcel ID or address
+- System fetches GIS + demographic data
+- Payment is processed (one-time)
+- Report is generated and delivered via email
+
+The system is designed for one-time transactional usage without user accounts.
 
 ⸻
 
 Why This Project Is Interesting
 
-This project demonstrates:
-•	Modular monolith architecture
-•	Clean separation of domain modules
-•	Advanced external API orchestration (GIS + Demography)
-•	Payment gateway abstraction (Stripe / TPay)
-•	Event-driven invoice + reporting pipeline
+This project demonstrates:  
+•	Modular monolith architecture  
+•	Clean separation of domain modules  
+•	Advanced external API orchestration (GIS + Demography)  
+•	Payment gateway abstraction (TPay)  
+•	Event-driven pipeline  
 •	Clean DTO + Action pattern usage
 
 ⸻
 
-Architecture Overview
-•	Laravel 12
-•	Modular monolith (packages/)
-•	DTO + Action pattern
-•	Strategy pattern (payment gateways)
-•	Facade pattern (GIS & invoicing APIs)
+Architecture Overview  
+•	Laravel 12  
+•	Modular monolith (packages/)  
+•	DTO + Action pattern  
+•	Strategy pattern (payment gateways)  
+•	Facade pattern (GIS & invoicing APIs)  
 •	Minimal event-driven workflow
 
 ## Detailed Documentation
@@ -50,41 +57,41 @@ Each step is isolated and testable.
 
 Tech Stack
 
-Backend:
-•	Laravel 12
-•	Modular domain packages
-•	Stripe / TPay
+Backend:  
+•	Laravel 12  
+•	Modular domain packages  
+•	TPay  
 •	ING Accounting API
 
-Frontend:
-•	Inertia.js
-•	Vue 3
+Frontend:  
+•	Inertia.js  
+•	Vue 3  
 •	TailwindCSS
 
-External APIs:
-•	Google Maps
-•	OSM Overpass
-•	Geoportal (WMS)
+External APIs:  
+•	Google Maps  
+•	OSM Overpass  
 •	GUS / BDL
 
-⸻
 
-Payment Integration
-
-The system abstracts payment gateways using the Strategy pattern:
-
-PaymentGatewayInterface
-├── StripeGateway
-└── TpayGateway
-
-This allows easy provider switching without modifying domain logic.
-
-My Role
-•	Backend architecture design
-•	Modular system structure
-•	Payment & invoice integration
-•	Domain logic implementation
+My Role  
+•	Backend architecture design  
+•	Modular system structure  
+•	Payment & invoice integration  
+•	Domain logic implementation  
 •	End-to-end pipeline design
+
+## Payment Integration
+
+The system integrates with TPay for one-time payment processing.
+
+Flow:
+- Payment session is created
+- Webhook verifies transaction status
+- Order is marked as paid
+- Invoice and report generation are triggered
+
+The payment logic is isolated inside the Payments module to keep domain logic clean.
 
 ## Observability & Logging
 
