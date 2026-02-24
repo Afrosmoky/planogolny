@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Planogolny\Analysis\DTO;
 
 final class LegalConstraintsDTO
@@ -25,7 +28,7 @@ final class LegalConstraintsDTO
         }
 
         if (is_nan($value) || is_infinite($value)) {
-            return null; // albo 0.0 – patrz niżej
+            return null;
         }
 
         return $value;

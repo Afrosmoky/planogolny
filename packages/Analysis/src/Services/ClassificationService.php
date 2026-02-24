@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Analysis\Services;
 
-use Planogolny\Analysis\DTO\AnalysisInputDTO;
-use Planogolny\Analysis\DTO\SurroundingsSnapshotDTO;
-use Planogolny\GIS\DTO\BuildingDTO;
 use Planogolny\GIS\DTO\SurroundingDTO;
 use Planogolny\GIS\DTO\SurroundingZoneDTO;
 

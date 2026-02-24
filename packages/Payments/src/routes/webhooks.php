@@ -18,6 +18,3 @@ Route::post('api/webhooks/tpay', function (Request $request) {
     return response('FALSE', 200)
         ->header('Content-Type', 'text/plain');
 })->name('tpay.webhook');
-//Route::post('api/webhooks/tpay', function () {
-//    return response()->json(['webhook' => 'ok']);
-//});

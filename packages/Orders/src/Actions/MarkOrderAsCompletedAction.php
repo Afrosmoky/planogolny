@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Orders\Actions;
 
 use Planogolny\Orders\Enums\OrderStatus;
 use Planogolny\Orders\Models\Order;
-use Planogolny\Orders\Events\OrderPaid;
-use Planogolny\Orders\Exceptions\OrderException;
 
 final class MarkOrderAsCompletedAction
 {

@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Orders\Actions;
+
 use Illuminate\Contracts\Events\Dispatcher;
 use Planogolny\Orders\Enums\OrderStatus;
 use Planogolny\Orders\Events\OrderPaid;
@@ -26,7 +29,9 @@ final class MarkOrderAsPaidAction
             'payment_provider' => $paymentProvider,
             'external_payment_id' => $externalPaymentId,
         ]);
+
         info('Order marked as paid');
+
         $this->events->dispatch(new OrderPaid($order));
 
         return $order;

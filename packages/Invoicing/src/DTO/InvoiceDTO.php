@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Invoicing\DTO;
 
 final readonly class InvoiceDTO

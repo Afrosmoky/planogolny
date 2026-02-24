@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class AnalysisResult extends Model
 {
@@ -24,7 +28,7 @@ class AnalysisResult extends Model
         'generated_at' => 'datetime',
     ];
 
-    public function analysis()
+    public function analysis(): BelongsTo
     {
         return $this->belongsTo(Analysis::class, 'analyses_id');
     }

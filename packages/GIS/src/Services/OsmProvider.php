@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\GIS\Services;
 
 use GuzzleHttp\Client;
@@ -30,7 +32,6 @@ out tags center;
 QL;
 
         $response = $this->callOverpass($query);
-        //dd(array_keys($response), $response['elements'][0] ?? null);
 
         $results = [];
         foreach (array_slice($response['elements'] ?? [], 0, 3) as $el) {
@@ -40,10 +41,6 @@ QL;
                 'center' => $el['center'] ?? null,
             ]);
         }
-
-//        if(empty($results)) {
-//            return $this->fixtureBuildings();
-//        }
 
         foreach ($response['elements'] ?? [] as $el) {
             if (!isset($el['center']['lat'], $el['center']['lon'])) {
@@ -139,13 +136,11 @@ QL;
                         'error' => $e->getMessage(),
                     ]);
 
-                    // krótka przerwa przed retry
                     usleep(500_000); // 0.5s
                 }
             }
         }
 
-        // wszystkie endpointy padły
         logger()->error('All Overpass endpoints failed', [
             'query_hash' => substr(md5($query), 0, 8),
         ]);
@@ -176,18 +171,15 @@ QL;
 
         foreach ($response['elements'] ?? [] as $el) {
 
-            // highway musi istnieć
             $highway = $el['tags']['highway'] ?? null;
             if (!$highway) {
                 continue;
             }
 
-            // wycinamy ścieżki piesze / techniczne
             if (in_array($highway, ['footway', 'path', 'cycleway'])) {
                 continue;
             }
 
-            // klasyfikacja domenowa
             $class = match (true) {
                 in_array($highway, [
                     'motorway',
@@ -213,7 +205,6 @@ QL;
                 $lat = (float) $el['center']['lat'];
                 $lon = (float) $el['center']['lon'];
             } elseif (!empty($el['geometry'])) {
-                // bierzemy pierwszy punkt geometrii (wystarczy do heurystyki)
                 $lat = (float) $el['geometry'][0]['lat'];
                 $lon = (float) $el['geometry'][0]['lon'];
             } else {
@@ -310,7 +301,6 @@ QL;
 
         foreach ($response['elements'] ?? [] as $el) {
 
-            // interesują nas tylko wody
             if (($el['tags']['natural'] ?? null) !== 'water') {
                 continue;
             }
@@ -318,7 +308,6 @@ QL;
             $lat = null;
             $lon = null;
 
-            // center → geometry → skip
             if (isset($el['center']['lat'], $el['center']['lon'])) {
                 $lat = (float) $el['center']['lat'];
                 $lon = (float) $el['center']['lon'];

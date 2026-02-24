@@ -8,9 +8,9 @@ final readonly class PlanInfoDTO
 {
     public function __construct(
         public bool $hasPlan,
-        public ?string $planType = null, // MPZP | STUDIUM | POG
+        public ?string $planType = null,
         public ?string $symbol = null,
         public ?string $description = null,
-        public ?string $source = null, // WMS
+        public ?string $source = null,
     ) {}
 }

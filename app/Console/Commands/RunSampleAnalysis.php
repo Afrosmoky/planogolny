@@ -1,84 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Planogolny\Analysis\Actions\PrepareAnalysisInputAction;
-use Planogolny\Analysis\Actions\RunAnalysisAction;
-use Planogolny\Analysis\Samples\SampleAnalysisInputFactory;
+use Planogolny\Analysis\DTO\AnalysisInputDTO;
 use Planogolny\GIS\DTO\CoordinatesDTO;
-use Planogolny\GIS\Services\GISFacade;
+use Planogolny\GIS\Facades\GISFacade;
+use Planogolny\Reporting\Actions\BuildReportSampleAction;
 
 class RunSampleAnalysis extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'analysis:sample
-        {case=suburban : suburban|urban|rural}
-        {--gis : Dump GIS aggregation only}';
+        {lat : Latitude}
+        {lon : Longitude}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Run analysis using sample input';
+    protected $description = 'Run full analysis for given coordinates';
 
     public function handle(
-        PrepareAnalysisInputAction $prepare,
-        RunAnalysisAction $run
+        GISFacade $gis
     ): int {
-        // punkt testowy – Piaseczno (domy jednorodzinne)
-        $lat = 52.097;
-        $lon = 21.026;
 
-        $input = $prepare->execute($lat, $lon);
-        $result = $run->execute($input);
+        $lat = (float) $this->argument('lat');
+        $lon = (float) $this->argument('lon');
 
-        $this->info('Analysis result:');
-        $this->line(json_encode($result, JSON_PRETTY_PRINT));
+        $coords = new CoordinatesDTO(
+            lat: $lat,
+            lon: $lon
+        );
 
-        return self::SUCCESS;
-    }
+        $gisData = $gis->fetchAllData($coords);
 
-    /**
-     * Execute the console command.
-     */
-    public function __handle(RunAnalysisAction $action, GISFacade $gis): int
-    {
-        if ($this->option('gis')) {
-            $coords = new CoordinatesDTO(
-                lat: 52.097,
-                lon: 21.026
-            );
+        $this->info('GIS Data:');
+        $this->line(json_encode($gisData, JSON_PRETTY_PRINT));
 
-            $data = $gis->fetchAllData($coords);
+        $this->newLine();
 
-            $this->info('GIS aggregation result:');
-            $this->line(json_encode(
-                $data['surroundings'],
-                JSON_PRETTY_PRINT
-            ));
+        $data = app(BuildReportSampleAction::class)->execute(
+            new AnalysisInputDTO(
+                $gisData['surroundings'],
+                $gisData['legalConstraints']
+            )
+        );
 
-            return self::SUCCESS;
-        }
+        $this->info('Analysis Result:');
+        $this->newLine();
 
-        $case = $this->argument('case');
-
-        $input = match ($case) {
-            'urban'    => SampleAnalysisInputFactory::urbanParcel(),
-            'rural'    => SampleAnalysisInputFactory::ruralParcel(),
-            default    => SampleAnalysisInputFactory::suburbanParcel(),
-        };
-
-        $result = $action->execute($input);
-
-        $this->info("Analysis completed for case: {$case}");
-        $this->line(json_encode($result, JSON_PRETTY_PRINT));
-
+        $this->line(json_encode($data, JSON_PRETTY_PRINT));
         return self::SUCCESS;
     }
 }

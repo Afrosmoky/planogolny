@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Payments\Actions;
 
 use Planogolny\Payments\DTO\TpayTransactionDTO;
@@ -14,6 +16,7 @@ final class CreateTpayTransactionAction
     public function execute(TpayTransactionDTO $dto): array
     {
         info('Amount in TPayTransactionAction: '.$dto->amount);
+
         return $this->client->createTransaction([
             'amount' => $dto->amount,
             'email' => $dto->email,

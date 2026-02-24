@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Enums\AnalysisStatus;
@@ -15,7 +17,7 @@ final class AnalysisController
         return Inertia::render('Landing/ParcelForm', []);
     }
 
-    public function start(Request $request)
+    public function start(Request $request): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
             'captcha_token' => ['required', 'string'],
@@ -50,26 +52,12 @@ final class AnalysisController
         return redirect()->route('analysis.processing', $analysis);
     }
 
-    public function processing(Analysis $analysis)
+    public function processing(Analysis $analysis): \Inertia\Response|\Inertia\ResponseFactory
     {
-//        dd($analysis);
         return inertia('Analysis/Processing', [
             'analysisId' => $analysis->id,
             'status' => $analysis->status,
         ]);
     }
 
-//    public function result(int $analysisId)
-//    {
-//        return Inertia::render('Analysis/Result', [
-//            'analysisId' => $analysisId,
-//            'preview' => [
-//                'jednorodzinna' => 50,
-//                'wielorodzinna' => 20,
-//                'uslugowa' => 10,
-//                'przemyslowa' => 0,
-//                'zielone' => 20,
-//            ],
-//        ]);
-//    }
 }

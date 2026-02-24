@@ -42,10 +42,7 @@ final class SurroundingsAggregator
             match ($b['type'] ?? null) {
                 'residential_single' => $residentialSingle++,
                 'residential_multi'  => $residentialMulti++,
-
-                // fallback: building=yes / residential → MN
                 'residential'        => $residentialSingle++,
-
                 'service'            => $service++,
                 'industrial'         => $industrial++,
                 default              => null,

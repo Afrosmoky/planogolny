@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Analysis\Actions;
 use App\Models\Analysis;
 use App\Models\AnalysisResult;
-use Planogolny\Analysis\DTO\AnalysisResultDTO;
 use Planogolny\Analysis\DTO\ResultStoreDTO;
 
 final readonly class CreateAnalysisResultAction

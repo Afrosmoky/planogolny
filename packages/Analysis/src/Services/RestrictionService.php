@@ -1,19 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Analysis\Services;
 
-use Planogolny\Analysis\DTO\AnalysisInputDTO;
-use Planogolny\Analysis\DTO\ConstraintsDTO;
 use Planogolny\GIS\DTO\SurroundingDTO;
 
 final class RestrictionService
 {
-    /**
-     * @return array{
-     *   penalties: array<string,int>,
-     *   warnings: string[]
-     * }
-     */
     public function apply(SurroundingDTO $surroundings): array
     {
         $penalties = [];

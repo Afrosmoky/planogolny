@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Reporting\Actions;
 
 final class BuildLandUseProbabilityAction
 {
     public function execute(array $surroundings): array
     {
-
         $noBuildingData = ($surroundings['buildingCount'] ?? 0) === 0;
 
         if ($noBuildingData) {
@@ -19,7 +20,6 @@ final class BuildLandUseProbabilityAction
             ];
         }
 
-
         $points = [
             'residential_single' => 0,
             'residential_multi'  => 0,
@@ -27,8 +27,6 @@ final class BuildLandUseProbabilityAction
             'industrial'         => 0,
             'green'              => 0,
         ];
-
-
 
         if (($surroundings['residentialSingleCount'] ?? 0) > 0) {
             $points['residential_single'] += 3;
@@ -38,8 +36,6 @@ final class BuildLandUseProbabilityAction
             $points['residential_multi'] += 2;
         }
 
-
-
         if (($surroundings['serviceCount'] ?? 0) > 0) {
             $points['service'] += 2;
         }
@@ -47,8 +43,6 @@ final class BuildLandUseProbabilityAction
         if (($surroundings['industrialCount'] ?? 0) > 0) {
             $points['industrial'] += 2;
         }
-
-
 
         if (!empty($surroundings['hasMainRoad'])) {
             $points['service'] += 1;
@@ -59,12 +53,9 @@ final class BuildLandUseProbabilityAction
             $points['industrial'] += 2;
         }
 
-
-
         if (!empty($surroundings['hasWater'])) {
             $points['green'] += 2;
         }
-
 
         $totalUrbanPoints =
             $points['residential_single']
@@ -87,7 +78,6 @@ final class BuildLandUseProbabilityAction
                 );
             }
         }
-
 
         $used = array_sum($result);
         $result['green'] = max(0, 100 - $used);

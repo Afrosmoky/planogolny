@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Reporting\Actions;
 
 use Planogolny\Reporting\Actions\BuildReportDataAction;
@@ -22,7 +24,7 @@ final class GenerateReportPdfAction
 
         $data = app(BuildReportDataAction::class)->execute($result);
 
-        $html = view('reports.placeholder', [
+        $html = view('reports.results', [
             'order' => $order,
             ...$data,
         ])->render();

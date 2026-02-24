@@ -1,5 +1,4 @@
 <?php
-// packages/Analysis/src/DTO/DemographyDTO.php
 
 declare(strict_types=1);
 

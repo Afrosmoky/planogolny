@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Invoicing\Services;
 
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Planogolny\Invoicing\DTO\InvoiceRequestDTO;
 use Planogolny\Invoicing\DTO\InvoiceDTO;
 
 final class IngInvoiceApi
 {
-    private function client()
+    private function client(): PendingRequest
     {
         return Http::withHeaders([
             'ApiUserCompanyRoleKey' => config('ing.api_key'),
@@ -16,46 +19,12 @@ final class IngInvoiceApi
         ]);
     }
 
-    /**
-     * CREATE INVOICE (B2C)
-     */
     public function createInvoice(InvoiceRequestDTO $dto): string
     {
         if (config('ing.env') === 'dev') {
             return 'ING-INVOICE-' . $dto->orderId;
         }
-        $payload = [
-            'positions' => [
-                'name' => $dto->description,
-                'code' => 'string',
-                'quantity' => 1,
-                'unit' => 'string',
-                'net' => $dto->amount / 1,23,
-                'tax' => round(($dto->amount / 100)*23, 0),
-                'gross' => $dto->amount,
-                'taxStake' => 'TAX_23',
-            ],
-            'payment' => [
-                'deadlineDate' => now()->toDateString(),
-                'method' => 'TRANSFER',
-                'bankAccounts'=> [
-                    'accountNumber' => config('ing.account_number'),
-                ]
-            ],
-            'buyer' => [
-                "email" => $dto->buyerEmail,
-                "fullName" => $dto->buyerName,
-                "addressStreet" => $dto->buyerAddressStreet,
-                "city" => $dto->buyerCity,
-                "postCode" => $dto->buyerPostCode,
-                "countryCode" => 'PL',
-                "taxNumber" => $dto->buyerTaxNumber,
-                "taxCountryCode" => 'PL'
-            ]
-        ];
-        info('ING INVOICE PAYLOAD', [
-            'payload' => $payload,
-        ]);
+
         $response = $this->client()->post(
             config('ing.base_url') . '/create-invoice',
             [
@@ -107,17 +76,12 @@ final class IngInvoiceApi
         $id = $response->json('id');
 
         if (! $id) {
-            throw new \RuntimeException('ING invoice created but ID missing', [
-                'response' => $response->body(),
-            ]);
+            throw new \RuntimeException('ING invoice created but ID missing');
         }
 
         return $id;
     }
 
-    /**
-     * DOWNLOAD INVOICE PDF
-     */
     public function downloadInvoicePdf(string $invoiceId): InvoiceDTO
     {
         if (config('ing.env') === 'dev') {

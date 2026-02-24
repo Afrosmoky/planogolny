@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Payments\Services;
 
 use Illuminate\Support\Facades\Http;
@@ -38,12 +40,7 @@ final readonly class TpayClient
 
     public function createTransaction(array $payload): array
     {
-//        if($this->env === 'dev') {
-//            return [
-//                'transactionId' => 'TPAY_TX_' . uniqid(),
-//                'redirectUrl' => 'https://secure.tpay.com/redirect/placeholder',
-//            ];
-//        }
+
         $token = $this->getAccessToken();
         info("Notification url: ".$payload['notify_url']);
         info("Success url: ".$payload['return_url']);
@@ -53,7 +50,7 @@ final readonly class TpayClient
             ->post($this->baseUrl . '/transactions', [
                 'merchantTransactionId' => (string) $payload['order_id'],
                 'hiddenDescription' => (string) $payload['order_id'],
-                'amount' => $payload['amount'],          // np. 1.00 albo 0.10
+                'amount' => $payload['amount'],
                 'description' => $payload['description'],
                 'payer' => [
                     'email' => $payload['email'],
@@ -99,7 +96,6 @@ final readonly class TpayClient
 
             $jwk = JWKFactory::createFromKey($publicKeyPem);
 
-            // ✅ TO JEST KLUCZOWA POPRAWKA
             $algorithmManager = new AlgorithmManager([
                 new ES256(),
             ]);

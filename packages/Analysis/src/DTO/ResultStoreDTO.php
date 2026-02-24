@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Analysis\DTO;
 
 use Planogolny\GIS\DTO\SurroundingDTO;

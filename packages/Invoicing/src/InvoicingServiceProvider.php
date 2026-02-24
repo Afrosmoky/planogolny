@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Invoicing;
 
 use Illuminate\Support\ServiceProvider;
-use Planogolny\Invoicing\Listeners\HandleInvoiceGenerated;
 use Planogolny\Invoicing\Services\IngInvoiceApi;
-use Planogolny\Orders\Events\OrderPaid;
-use Illuminate\Support\Facades\Event;
 
 class InvoicingServiceProvider extends ServiceProvider
 {
@@ -17,6 +16,6 @@ class InvoicingServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Event::listen(OrderPaid::class, HandleInvoiceGenerated::class);
+
     }
 }

@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Analysis;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Planogolny\Orders\Actions\CreateOrderAction;
 use Planogolny\Orders\DTO\OrderDTO;
@@ -20,14 +22,6 @@ final class PaymentController
         Request $request
     ): \Illuminate\Http\JsonResponse
     {
-
-//        dd([
-//            'analysisId' => $analysisId,
-//            'all' => $request->all(),
-//            'invoice_type' => $request->input('invoice_type'),
-//            'invoice_data' => $request->input('invoice_data'),
-//        ]);
-
         $order = $createOrder->execute(
             new OrderDTO(
                 analysisId: $analysisId,
@@ -41,8 +35,6 @@ final class PaymentController
             )
         );
 
-
-
         $transaction = $createTpayTransaction->execute(
             new TpayTransactionDTO(
                 orderId: (string) $order->id,
@@ -54,14 +46,9 @@ final class PaymentController
             )
         );
 
-        /**
-         * 3️⃣ Redirect do TPay
-         */
         return response()->json([
             'redirect_url' => $transaction['redirectUrl'],
         ]);
-        //return redirect()->away($transaction['redirectUrl']);
-        //return redirect(route('payment.success', $order->id));
     }
 
     public function success(Order $order): \Inertia\Response|\Inertia\ResponseFactory
@@ -74,7 +61,7 @@ final class PaymentController
 
         $order->load('analysis');
 
-        //abort_unless($order->analysis->session_id === session()->getId(), 403);
+        abort_unless($order->analysis->session_id === session()->getId(), 403);
 
         $analysis = $order->analysis;
         $result = $analysis?->result;
@@ -99,7 +86,7 @@ final class PaymentController
         ]);
     }
 
-    public function checkout(Analysis $analysis)
+    public function checkout(Analysis $analysis): \Inertia\Response|\Inertia\ResponseFactory
     {
         return inertia('Payment/Checkout', [
             'analysisId' => $analysis->id

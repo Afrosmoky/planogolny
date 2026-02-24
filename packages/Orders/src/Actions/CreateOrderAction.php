@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Orders\Actions;
 
 use Planogolny\Orders\DTO\OrderDTO;

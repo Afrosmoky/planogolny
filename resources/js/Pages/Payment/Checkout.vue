@@ -74,7 +74,7 @@ const submit = async () => {
                     >
                         <div class="btn_top">
                             <h3>
-                                Pobierz Raport – koszt 49,99zł&nbsp;&nbsp;&nbsp;<img
+                                Pobierz Raport – koszt 4,99zł&nbsp;&nbsp;&nbsp;<img
                                 src="/assets/img/download.svg"
                                 class="dwnl_ico"
                             />

@@ -66,7 +66,6 @@ final class PlanInfoProvider
             info($e->getMessage());
         }
 
-        //return new PlanInfoDTO(hasPlan: false);
         return new PlanInfoDTO(
             hasPlan: true,
             planType: 'MPZP',

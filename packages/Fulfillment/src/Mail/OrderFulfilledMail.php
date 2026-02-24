@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Fulfillment\Mail;
 
 use Illuminate\Mail\Mailable;
@@ -14,7 +16,7 @@ final class OrderFulfilledMail extends Mailable
         public readonly ?string $invoicePath
     ) {}
 
-    public function build()
+    public function build(): self
     {
         $this->order->load('analysis');
         $mail = $this->subject('Raport i faktura')

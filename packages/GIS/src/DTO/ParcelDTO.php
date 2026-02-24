@@ -11,10 +11,8 @@ final readonly class ParcelDTO
         public ?string $powiat,
         public ?string $wojewodztwo,
         public ?string $parcelId,
-
-        public ?array $geometry,   // GeoJSON Polygon
-        public ?array $centroid,   // ['lat' => float, 'lon' => float]
-
+        public ?array $geometry,
+        public ?array $centroid,
         public array $raw = []
     ) {}
 }

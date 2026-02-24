@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Analysis\Services;
 
 use Planogolny\Analysis\DTO\AnalysisInputDTO;
@@ -14,15 +16,10 @@ final class ScoringService
 
     public function calculate(AnalysisInputDTO $input): AnalysisResultDTO
     {
-        // 1️Klasyfikacja zabudowy (punkty bazowe)
         $baseScores = $this->classificationService->classify($input->surroundings);
-        // przykład: ['single_family' => 60, 'services' => 20, ...]
 
-        // 2️Ograniczenia (kary + warnings)
         $restrictionResult = $this->restrictionService->apply($input->surroundings);
-        // ['penalties' => [...], 'warnings' => [...]]
 
-        // 3️Zastosowanie kar
         $finalScores = [];
 
         foreach ($baseScores as $category => $score) {
@@ -30,10 +27,8 @@ final class ScoringService
             $finalScores[$category] = max(0, $score - $penalty);
         }
 
-        // 4️⃣ Normalizacja do 100% (jeśli potrzeba)
         $normalizedScores = $this->normalize($finalScores);
 
-        // 5️⃣ Mapowanie do DTO
         $categories = [];
 
         foreach ($normalizedScores as $category => $score) {

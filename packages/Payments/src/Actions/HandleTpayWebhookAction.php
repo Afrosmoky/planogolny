@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Payments\Actions;
 
 use Planogolny\Orders\Actions\MarkOrderAsPaidAction;

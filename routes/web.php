@@ -12,29 +12,10 @@ use Planogolny\Orders\Models\Order;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Cache\RateLimiting\Limit;
 
-//Route::get('/', function () {
-//    return Inertia::render('Welcome', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
-//});
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 RateLimiter::for('analysis-start', function ($request) {
     return Limit::perMinutes(10, 5)->by(
         $request->ip()
     );
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::get('/', [AnalysisController::class, 'form']);
@@ -63,4 +44,3 @@ Route::get('/reports/{order}', function ($orderId) {
     return Storage::download("reports/report-{$orderId}.pdf");
 })->name('report.download');
 
-require __DIR__.'/auth.php';

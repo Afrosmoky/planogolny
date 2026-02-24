@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Invoicing\Actions;
 
 use Planogolny\Invoicing\Services\IngInvoiceApi;
 use Planogolny\Invoicing\DTO\InvoiceDTO;
 use Planogolny\Invoicing\Exceptions\InvoiceException;
-use Planogolny\Invoicing\Events\InvoiceDownloaded;
 
 final readonly class DownloadInvoiceAction
 {
@@ -17,8 +18,6 @@ final readonly class DownloadInvoiceAction
     {
         try {
             $invoice = $this->api->downloadInvoicePdf($invoiceId);
-
-            InvoiceDownloaded::dispatch($invoice->invoiceNumber);
 
             return $invoice;
         } catch (\Throwable $e) {

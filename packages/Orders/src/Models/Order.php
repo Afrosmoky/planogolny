@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Orders\Models;
 
 use App\Models\Analysis;

@@ -1,59 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Planogolny.info – GIS-Based Parcel Analysis Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+What It Does
 
-## About Laravel
+Planogolny.info is a Laravel-based web application that analyzes land parcels in Poland using GIS data, demographic information, and a rules-based scoring engine.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Users:
+1.	Enter an address or parcel number
+2.	Purchase a detailed report
+3.	Receive a generated PDF with recommendations
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+⸻
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Why This Project Is Interesting
 
-## Learning Laravel
+This project demonstrates:
+•	Modular monolith architecture
+•	Clean separation of domain modules
+•	Advanced external API orchestration (GIS + Demography)
+•	Payment gateway abstraction (Stripe / TPay)
+•	Event-driven invoice + reporting pipeline
+•	Clean DTO + Action pattern usage
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+⸻
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Architecture Overview
+•	Laravel 12
+•	Modular monolith (packages/)
+•	DTO + Action pattern
+•	Strategy pattern (payment gateways)
+•	Facade pattern (GIS & invoicing APIs)
+•	Minimal event-driven workflow
 
-## Laravel Sponsors
+## Detailed Documentation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Detailed technical documentation is available in the `/docs` directory:
 
-### Premium Partners
+- [Architecture Overview](docs/architecture_overview.md)
+- [Modules Overview](docs/modules_overview.md)
+- [Backend Architecture Guide](docs/Planogolny_Backend_Architecture_Guide.md)
+- [Technical Stack](docs/technical_stack.md)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+⸻
 
-## Contributing
+End-to-End Flow
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+User → Payment → OrderPaid → Invoice → PDF Report → Email
 
-## Code of Conduct
+Each step is isolated and testable.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Tech Stack
 
-## Security Vulnerabilities
+Backend:
+•	Laravel 12
+•	Modular domain packages
+•	Stripe / TPay
+•	ING Accounting API
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Frontend:
+•	Inertia.js
+•	Vue 3
+•	TailwindCSS
 
-## License
+External APIs:
+•	Google Maps
+•	OSM Overpass
+•	Geoportal (WMS)
+•	GUS / BDL
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+⸻
+
+Payment Integration
+
+The system abstracts payment gateways using the Strategy pattern:
+
+PaymentGatewayInterface
+├── StripeGateway
+└── TpayGateway
+
+This allows easy provider switching without modifying domain logic.
+
+My Role
+•	Backend architecture design
+•	Modular system structure
+•	Payment & invoice integration
+•	Domain logic implementation
+•	End-to-end pipeline design
+
+## Observability & Logging
+
+The system logs:
+- external API failures (GIS providers)
+- payment verification events
+- invoice creation results
+
+This allows easier monitoring and debugging in production environments.

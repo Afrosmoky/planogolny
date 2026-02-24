@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Planogolny\Invoicing\Actions;
 
 use Planogolny\Invoicing\DTO\InvoiceRequestDTO;
 use Planogolny\Invoicing\Services\IngInvoiceApi;
 use Planogolny\Invoicing\Exceptions\InvoiceException;
-use Planogolny\Invoicing\Events\InvoiceCreated;
 
 final readonly class CreateInvoiceAction
 {
@@ -17,8 +18,6 @@ final readonly class CreateInvoiceAction
     {
         try {
             $invoiceId = $this->api->createInvoice($dto);
-
-            InvoiceCreated::dispatch($invoiceId);
 
             return $invoiceId;
         } catch (\Throwable $e) {

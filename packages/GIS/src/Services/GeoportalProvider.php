@@ -21,7 +21,7 @@ final class GeoportalProvider
 
     public function identifyParcel(CoordinatesDTO $coords): ParcelDTO
     {
-        // WFS – działki ewidencyjne (EGiB)
+
         $url = 'https://mapy.geoportal.gov.pl/wss/service/PZGIK/EGIB/WFS/DzialkiEwidencyjne';
 
         $response = $this->http->get($url, [

@@ -18,7 +18,6 @@ final class DemographyProvider
             'timeout' => 15,
         ]);
 
-        //Client ID - uzupełnić to o klient ID bo chyba powinien być w zapytaniu
     }
 
     public function fetch(?string $gminaCode): ?DemographyDTO
@@ -28,7 +27,6 @@ final class DemographyProvider
         }
 
         try {
-            // szkic – docelowo konkretne wskaźniki
             $response = $this->http->get("data/by-unit/{$gminaCode}");
 
             $data = json_decode((string) $response->getBody(), true);

@@ -4,36 +4,32 @@ declare(strict_types=1);
 
 namespace Planogolny\Reporting\Actions;
 
-use App\Models\AnalysisResult;
-use Planogolny\Analysis\DTO\LegalConstraintsDTO;
+use Planogolny\Analysis\DTO\AnalysisInputDTO;
 
-final class BuildReportDataAction
+final class BuildReportSampleAction
 {
-    public function execute(AnalysisResult $result): array
+    public function execute(AnalysisInputDTO $input): array
     {
-        $legalDto = LegalConstraintsDTO::fromArray($result->legal_constraints);
-
         $legal = app(BuildLegalConstraintsReportAction::class)
-            ->execute($legalDto);
+            ->execute($input->legalConstraints);
 
         $surroundings = app(BuildSurroundingsReportAction::class)
-            ->execute($result->surroundings);
+            ->execute($input->surroundings->toArray());
 
         $finalSummary = app(BuildFinalSummaryReportAction::class)->execute(
-            $result->surroundings,
-            $result->legal_constraints
+            $input->surroundings->toArray(),
+            $input->legalConstraints->toArray()
         );
 
         $landUseProbabilities = app(BuildLandUseProbabilityAction::class)
             ->execute(
-                $result->surroundings
+                $input->surroundings->toArray(),
             );
 
         return [
             'legalConstraints' => $legal,
             'surroundings' => $surroundings,
             'finalSummary' => $finalSummary,
-            'meta' => $result->meta,
             'landUseProbabilities' => $landUseProbabilities,
         ];
     }
