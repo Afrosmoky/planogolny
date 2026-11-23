@@ -15,9 +15,13 @@ final class SendOrderFulfilledMailAction
         string $reportPath,
         ?string $invoicePath = null
     ): void {
-        Mail::to($order->email)
-            ->bcc(config('mail.order_notification'))
-            ->send(
+        $mail = Mail::to($order->email);
+
+        if ($bcc = config('mail.order_notification')) {
+            $mail->bcc($bcc);
+        }
+
+        $mail->send(
             new OrderFulfilledMail(
                 order: $order,
                 reportPath: $reportPath,
