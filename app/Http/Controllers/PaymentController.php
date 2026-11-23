@@ -27,7 +27,7 @@ final class PaymentController
                 analysisId: $analysisId,
                 email: $request->input('invoice_data.email'),
                 addressText: "Analysis #{$analysisId}",
-                amount: 9.99,
+                amount: 4.99,
                 currency: 'PLN',
                 paymentProvider: 'TPay',
                 invoiceType: $request->input('invoice_type'),

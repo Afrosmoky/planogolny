@@ -12,7 +12,7 @@ export function loadGoogleMaps() {
 
         const script = document.createElement('script')
         script.src =
-            'https://maps.googleapis.com/maps/api/js?key=AIzaSyCAuQt5RhQuAWVEUQgGr9GzrzzqnZ4BT2g'
+            'https://maps.googleapis.com/maps/api/js?key=AIzaSyDLnU4F9Zj0O4GEr1uyE_MK5607H_8jpKk'
         script.async = true
         script.defer = true
 
