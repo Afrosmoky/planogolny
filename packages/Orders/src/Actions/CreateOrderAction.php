@@ -43,6 +43,6 @@ final readonly class CreateOrderAction
             $next = (int) str_replace('PLAN-2026-', '', $lastNumber) + 1;
         }
 
-        return 'PLAN-2026-' . str_pad($next, 6, '0', STR_PAD_LEFT);
+        return 'PLAN-2026-' . str_pad((string) $next, 6, '0', STR_PAD_LEFT);
     }
 }
