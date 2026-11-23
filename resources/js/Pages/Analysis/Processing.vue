@@ -45,14 +45,14 @@ function checkStatus() {
 }
 
 onMounted(() => {
-    loader.value.start()
+    loader.value?.start()
     checkStatus()
     interval = setInterval(checkStatus, 5000)
 })
 
 onUnmounted(() => {
     clearInterval(interval)
-    loader.value.stop()
+    loader.value?.stop()
 })
 
 const acceptedTerms = ref(false)

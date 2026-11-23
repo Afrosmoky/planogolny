@@ -37,7 +37,7 @@ final class PaymentController
 
         $transaction = $createTpayTransaction->execute(
             new TpayTransactionDTO(
-                orderId: (string) $order->id,
+                orderId: (int) $order->id,
                 amount: $order->amount,
                 email: $order->email,
                 returnUrl: route('payment.success', $order->id),
