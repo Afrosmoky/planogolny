@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Planogolny\Fulfillment\Listeners;
 
 use Planogolny\Invoicing\Actions\DownloadInvoiceAction;
+use Planogolny\Invoicing\DTO\InvoiceDTO;
 use Planogolny\Invoicing\DTO\InvoiceRequestDTO;
 use Planogolny\Orders\Events\OrderPaid;
+use Planogolny\Orders\Models\Order;
 use Planogolny\Fulfillment\Actions\SendOrderFulfilledMailAction;
 use Planogolny\Reporting\Actions\GenerateReportPdfAction;
 use Planogolny\Invoicing\Actions\CreateInvoiceAction;
@@ -25,6 +27,23 @@ final class FulfillPaidOrderListener
 
         $invoicePath = null;
 
+        if (config('ing.ing_invoicing')) {
+            $invoicePath = $this->issueInvoice($order);
+        } else {
+            logger('FulfillmentPaidOrderListener: ING invoicing disabled (FEATURE_ING_INVOICING=false), skipping invoice for order '.$order->id);
+        }
+
+        app(SendOrderFulfilledMailAction::class)->execute(
+            order: $order,
+            reportPath: $reportPath->pdfBinary,
+            invoicePath: $invoicePath?->pdfBinary,
+        );
+
+        logger('FulfillmentPaidOrderListener after send report and invoice');
+    }
+
+    private function issueInvoice(Order $order): ?InvoiceDTO
+    {
         $invoiceId = app(CreateInvoiceAction::class)->execute(
             new InvoiceRequestDTO(
                 orderId: $order->id,
@@ -48,18 +67,10 @@ final class FulfillPaidOrderListener
         logger('FulfillmentPaidOrderListener after generate invoice');
         logger('FulfillmentPaidOrderListener before download invoice. Downloading invoice with id: '.$invoiceId);
 
-        if($invoiceId) {
-            $invoicePath = app(DownloadInvoiceAction::class)
-                ->execute($invoiceId);
+        if (! $invoiceId) {
+            return null;
         }
 
-
-        app(SendOrderFulfilledMailAction::class)->execute(
-            order: $order,
-            reportPath: $reportPath->pdfBinary,
-            invoicePath: $invoicePath->pdfBinary,
-        );
-
-        logger('FulfillmentPaidOrderListener after send report and invoice');
+        return app(DownloadInvoiceAction::class)->execute($invoiceId);
     }
 }

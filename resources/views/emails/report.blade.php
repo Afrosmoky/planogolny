@@ -16,9 +16,11 @@
     {{ $order->analysis->lng }}
 </p>
 
+@if($hasInvoice ?? false)
 <p>
     W załączniku znajduje się również faktura zakupu raportu.
 </p>
+@endif
 
 <p>
     <strong>Informacja dodatkowa</strong><br>
